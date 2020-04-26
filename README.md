@@ -17,7 +17,48 @@ Curso propuesto por el grupo de trabajo Semana de Ingenio y Diseño (**SID**) de
 # Antes de comenzar
 
 Para continuar con el ejercicio deberá actualizar la carpeta resources ya que se han agregado nuevas imágenes. Estas las puede descargar en este mismo repositorio entrando a la carpeta **Clase6** seguido de **resources/img**. Puede notar que adentro existe una nueva carpeta llamada perfiles, esta también deberá ser agregada ya que tendrá utilidad en futuras clases.  
+<div align='center'>
+    <img  src='./resources/repositorio1.png'>
+    <p>Carpeta perfiles dentro de resources/img en el repositorio</p>
+</div>
 
+Para nuevas fuentes se utilizo la fuente **luzSanz-Book** pero esta no se encuentra por defecto en Windows, dentro del repositorio encontrara un archivo llamado **LUZRO.TTF**, este archivo lo puede descargar e instalarlo en el paquete de fuentes del sistema entrando al **Panel de control / Funetes** y copiando el archivo allí. Si este proceso no se realiza el programa funcionara con normalidad sin embargo los objetos gráficos que usen esta fuente tendrán la fuente por defecto de Java.
+
+<div align='center'>
+    <img  src='./resources/repositorio2.png'>
+    <p>Archivo de fuente nueva dentro de repositorio</p>
+</div>
+
+En el servicio **RecursosService** creamos dos nuevos objetos decoradores **Font**:
+
+**Declaración:**
+```javascript
+private Font fontBotones, fontPequeña;
+```
+
+**Ejemplificación:**
+```javascript
+fontBotones = new Font("LuzSans-Book", Font.PLAIN, 15);
+fontPequeña = new Font("LuzSans-Book", Font.PLAIN, 13);
+```
+
+**Métodos get:**
+```javascript
+public Font getFontBotones(){
+    return fontBotones;
+}
+
+public Font getFontPequeña(){
+    return fontPequeña;
+}
+```
+
+El objeto decorador **fontTitulo** cambio un poco:
+```javascript
+fontTitulo = new Font("LuzSans-Book", Font.BOLD, 17);
+```
+
+Con lo anterior ya se tendrá todo listo para continuar.
 
 Recordando nuestro recorrido, el componente gráfico **login** esta listo y funcional, tiene una vista agradable para los usuarios, un código modularizado y optimizado, y realiza eventos por acción permitiendo entre otras cosas cerrar la aplicación, mostrar la información recibida del usuario o abrir la ventana principal.
 
@@ -492,6 +533,11 @@ public void crearJButtons(){
 
 Estos botones tienen unas características peculiares:
 * Todos cuentan con una imagen y ademas un texto, esto es posible y nuestro servicio **ObjGraficosService** esta configurado para estos casos.
+* Para que exista una separación visible entre el icono y el texto, este ultimo empieza con unos espacios de la forma:
+<div align='center'>
+    <img  src='./resources/codigo4.png'>
+    <p>Separación de texto con icono dentro del botón</p>
+</div>
 * El botón esta vez cuenta con una dirección hacia la izquierda por lo que se envía como argumento **"l"** para el parámetro **dirección**.
 * No tienen fondo por lo que se envía como argumento un **false** para el parámetro **esSolido**.
 
@@ -535,6 +581,46 @@ Si corremos nuestra aplicación y abrimos nuestra ventana principal notamos que 
     <p>Vista principal con el componente Navegación usuario agregado</p>
 </div>
 
-Sin embargo al dar click sobre cualquiera de los botónes, estos no hacen nada aun, cuando se oprima cualquiera de los botones queremos ver el componente dentro del panel **pPrincipal** y esto se discutirá en la siguiente sección.
+Sin embargo al dar click sobre cualquiera de los botónes, estos no hacen nada aun, esto se discutirá en la siguiente sección.
 
 # Enrutamiento y gestión de visibilidad de componentes
+
+Ya tenemos nuestros dos componentes incorporados a la ventana principal, esto nos da una ventaja enorme ya que cada componente tiene su propia responsabilidad y su código sera mucho mas entendible. Lo que queremos hacer ahora es que cuando se oprima cualquiera de los botones del componente **navegacionUsuario** la ventana principal gestionara que componentes se verán dentro del panel **pPrincipal** este proceso se conoce como **enrutamiento** que para paginas web tiene mas sentido ya que esta gestión de visibilidad de componentes se hace mediante rutas en el navegador, sin embargo para introducirnos al proceso se decidió dejar el mismo nombre, al final es el mismo resultado lo que queremos hacer.
+
+La clase que se debe encargar de gestionar que es visible y que no dentro de la misma es solamente la clase **VistaPrincipalComponent**, se podría pensar que el componente **navegacionUsuario** al tener los botones se debería encargar de esta labor pero es erróneo, es la misma ventana principal la que debe hacer su propia gestión.
+
+## Creación de componentes Gráficos
+
+Primero vamos a crear los componentes gráficos a los cuales se quiere gestionar su visibilidad en la ventana principal.
+
+## Comunicación bidireccional entre componentes
+
+Como lo que queremos es realizar la gestión desde la clase **VistaPrincipalComponent** pero los botones de activación se encuentra en el componente **navegacionUsuario** debemos hacer que exista una comunicación bidireccional entre ambos componentes para lo que realizaremos de nuevo una **inyección de dependencia**.
+
+* Primero vamos a la clase **NavegacionUsuarioComponent** y vamos a recibir por parámetro un objeto de tipo **VistaPrincipalComponent**:
+
+```javascript
+public NavegacionUsuarioComponent(VistaPrincipalComponent vistaPrincipalComponent) {
+
+    ...
+```
+
+* Declaramos un objeto (Atributo) de la misma referencia y lo igualamos al objeto recibido para que sea conocido de forma global en la clase:
+```javascript
+private VistaPrincipalComponent vistaPrincipalComponent;
+
+public NavegacionUsuarioComponent(VistaPrincipalComponent vistaPrincipalComponent) {
+    this.vistaPrincipalComponent = vistaPrincipalComponent;
+
+    ...
+```
+
+* Ahora en nuestra clase **VistaPrincipalComponent** nos va a salir un error en la linea en que ejemplificamos a la clase componente **NavegacionUsuarioComponent** ya que este nos exige por constructor un objeto de tipo **VistaPrincipalComponent**, simplemente entre los paréntesis colocamos un **this** enviándose a si misma como objeto:
+```javascript
+this.navegacionUsuarioComponent = new NavegacionUsuarioComponent(this);
+```
+Ya hemos creado nuestra inyección y con esto hay comunicación bidireccional entre clases.
+
+## Configurando eventos en componente NavegaciónUsuario
+
+Aprovechando que todos nuestros botones dentro del componente tienen texto, vamos a tomar su comando (texto del botón) para ser enviado a la clase **VistaPrincipalComponent** y asi gestionar el enrutamiento.
