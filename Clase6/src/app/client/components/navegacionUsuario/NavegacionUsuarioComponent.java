@@ -18,7 +18,7 @@ public class NavegacionUsuarioComponent implements ActionListener {
 
     @Override
 	public void actionPerformed(ActionEvent e) {
-        this.vistaPrincipalComponent.mostrarPanel(e.getActionCommand().trim());
+        this.vistaPrincipalComponent.mostrarComponente(e.getActionCommand().trim());
     }
     
     public NavegacionUsuarioTemplate getNavegacionUsuarioTemplate() {

@@ -1,7 +1,8 @@
 package app.client.components.inicio;
 
+import java.awt.Color;
+
 import javax.swing.JPanel;
-import app.services.RecursosService;
 
 public class InicioTemplate extends JPanel{
 
@@ -9,15 +10,13 @@ public class InicioTemplate extends JPanel{
     
     // Declaración Servicios y dependencias
     private InicioComponent inicioComponent;
-    private RecursosService sRecursos; 
     
     public InicioTemplate(InicioComponent inicioComponent){
         this.inicioComponent = inicioComponent;
         this.inicioComponent.getClass();
-        sRecursos = RecursosService.getService();
         
         this.setSize(850, 600);
-        this.setBackground(sRecursos.getColorGrisOscuro());
+        this.setBackground(Color.DARK_GRAY);
         this.setLayout(null);
         this.setVisible(true);
     }

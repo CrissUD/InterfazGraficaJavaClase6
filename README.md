@@ -593,9 +593,76 @@ La clase que se debe encargar de gestionar que es visible y que no dentro de la 
 
 Primero vamos a crear los componentes gráficos a los cuales se quiere gestionar su visibilidad en la ventana principal.
 
+<div align='center'>
+    <img  src='./resources/paquetes3.png'>
+    <p>Creación de componentes para gestionar enrutamiento</p>
+</div>
+
+Realizaremos una vez el proceso de creación de uno de estos componentes (**inicio**), los demás tendrán el mismo proceso salvo por un pequeño cambio en cada uno que se explicará más adelante:
+
+Empezamos con su clase **InicioComponent**:
+
+* Como por ahora este componente no va a contar con ningún botón no es necesario que implemente ninguna interfaz aun, si en el futuro cuando se este creando este componente nos damos cuenta que tiene botónes o necesita eventos realizaremos la implementación, pero por ahora no:
+```javascript
+public class InicioComponent{
+}
+```
+* Creamos un objeto de la clase **Template** correspondiente y realizamos la inyección:
+
+**Declaración:**
+```javascript
+private InicioTemplate inicioTemplate;
+```
+**Ejemplificación:**
+```javascript
+// Dentro del constructor
+this.inicioTemplate=  new InicioTemplate(this);
+```
+
+* Creamos el método **get** Correspondiente:
+```javascript
+public InicioTemplate getInicioTemplate() {
+    return this.inicioTemplate;
+}
+```
+
+Ahora en nuestra clase **InicioTemplate**:
+* Al igual que con los otros componentes creados en esta clase esta hereda de un **JPanel**:
+```javascript
+public class InicioTemplate extends JPanel{
+}
+```
+
+* Recibimos la inyección como lo hemos explicado previamente:
+
+**Declaración:**
+```javascript
+private InicioComponent inicioComponent;
+```
+**Recibimiento de inyección e igualación:**
+```javascript
+public InicioTemplate(InicioComponent inicioComponent){
+    this.inicioComponent = inicioComponent;
+}
+```
+* Ahora damos propiedades gráficas al componente:
+```javascript
+// Dentro del constructor
+this.setSize(850, 600);
+this.setBackground(Color.DARK_GRAY);
+this.setLayout(null);
+this.setVisible(true);
+```
+
+Como se ha explicado antes este debe tener exactamente el mismo tamaño que el panel a remplazar, en este caso sera el panel **pPrincipal**.
+
+***Nota:** Para los otros componentes que creamos (amigos, configuraciones, perfil, productos) sera exactamente el mismo proceso con la diferencia del color en el **setBackground**, deben ser distintos esto para diferenciar cada uno de los componentes.*
+
+
+
 ## Comunicación bidireccional entre componentes
 
-Como lo que queremos es realizar la gestión desde la clase **VistaPrincipalComponent** pero los botones de activación se encuentra en el componente **navegacionUsuario** debemos hacer que exista una comunicación bidireccional entre ambos componentes para lo que realizaremos de nuevo una **inyección de dependencia**.
+Como lo que queremos es realizar la gestión desde la clase **VistaPrincipalComponent** pero los botones de activación se encuentra en el componente **navegacionUsuario** debemos hacer que exista una comunicación bidireccional entre ambos componentes para lo que realizaremos una **inyección de dependencia entre componentes gráficos**.
 
 * Primero vamos a la clase **NavegacionUsuarioComponent** y vamos a recibir por parámetro un objeto de tipo **VistaPrincipalComponent**:
 
@@ -621,6 +688,251 @@ this.navegacionUsuarioComponent = new NavegacionUsuarioComponent(this);
 ```
 Ya hemos creado nuestra inyección y con esto hay comunicación bidireccional entre clases.
 
+Ahora antes de continuar como nuestra clase **VistaPrincipalComponent** se va a encargar del enrutamiento vamos a crear un método llamado   **mostrarComponente** y recibirá por parámetro un String al cual llamaremos **comando**:
+
+```javascript
+public void mostrarComponente(String comando){
+}
+```
+
 ## Configurando eventos en componente NavegaciónUsuario
 
-Aprovechando que todos nuestros botones dentro del componente tienen texto, vamos a tomar su comando (texto del botón) para ser enviado a la clase **VistaPrincipalComponent** y asi gestionar el enrutamiento.
+Aprovechando que todos nuestros botones dentro del componente tienen texto, vamos a tomar su comando (texto del botón) para ser enviado a la clase **VistaPrincipalComponent** y asi gestionar el enrutamiento. De esta forma nos evitamos también la creación de los métodos **get** dentro de la clase **NavegacionUsuarioTemplate**.
+
+Nos posicionamos en la clase **NavegacionUsuarioComponent** y dentro del método implementado vamos a enviar el comando del botón:
+
+```javascript
+@Override
+public void actionPerformed(ActionEvent e) {
+    this.vistaPrincipalComponent.mostrarComponente(e.getActionCommand());
+}
+```
+
+del anterior código se pueden notar varias cosas:
+* Como la gestión de enrutamiento la haremos desde la vista principal no es necesario realizar una discriminación de acción desde aquí, esto se realizara en la clase **VistaPrincipalComponent**.
+* Podemos notar aquí la importancia de declarar un objeto inyectado para igualarlo dentro del constructor, si esto no se hiciera el objeto inyectado solo existiría dentro del constructor y cuando intentemos llamar al método  **mostrarComponente** desde el método **actionPerformed** nos sacaría un error en ejecución ya que para este entorno no existiría el objeto **vistaPrincipalComponent**.
+* Recordemos que el método **getAtionCommand()** nos va a retornar el texto que contiene el botón que activo el evento (el que se oprimió) en forma de String asi que puede enviarse sin problema como argumento al método **mostrarComponente**. 
+
+Sin embargo como vimos anteriormente para hacer la separación del texto con el icono en cada botón el texto iniciaba con unos espaciós, podemos probar esto realizando una muestra por consola asi:
+```javascript
+@Override
+public void actionPerformed(ActionEvent e) {
+    System.out.println(e.getActionCommand());
+    this.vistaPrincipalComponent.mostrarComponente(e.getActionCommand());
+}
+```
+Cuando ejecutemos nuestro programa y oprimamos cualquier botón del componente **navegacionUsuario** y vemos la consola podemos notar lo siguiente:
+
+<div align='center'>
+    <img  src='./resources/ejecucion1.png'>
+    <p>Texto de cada botón con espacios al inicio</p>
+</div>
+
+No queremos enviar estos espacios primero por que no tenemos la certeza de cuantos son y si son los mismos en cada botón, ademas contarlos seria un desperdicio de tiempo.
+
+vamos a hacer uso del método **trim** este método:
+* **trim()**: Quita todos los espacios que existan antes y al finalizar un texto dentro de un String.
+Nuestra configuración queda asi:
+
+```javascript
+@Override
+public void actionPerformed(ActionEvent e) {
+    System.out.println(e.getActionCommand().trim());
+    this.vistaPrincipalComponent.mostrarComponente(e.getActionCommand().trim());
+}
+```
+
+Una vez ejecutamos la aplicación y vemos en nuestra consola podemos notar lo siguiente:
+<div align='center'>
+    <img  src='./resources/ejecucion2.png'>
+    <p>Texto de cada botón sin espacios al inicio</p>
+</div>
+
+Se puede observar también que incluso si existe espacio entre el texto este se conserva como es el caso del comando **cerrar Sesión**.
+
+***Nota:** El método para mostrar por consola se hizo como una prueba, asi que se puede retirar.*
+
+## Configuración de Enrutamiento
+
+Ya tenemos casi todo listo para configurar nuestro enrutamiento, ahora nos vamos a posicionar en el método **mostrarComponente** de la clase **VistaPrincipalComponent**.
+Una vez recibamos el comando del botón desde el componente **navegacionUsuario** podemos llamar a los demás componentes de acuerdo a la petición del usuario. Esto lo realizaremos con un **switch / case** de la siguiente forma:
+
+```javascript
+public void mostrarComponente(String comando){
+    vistaPrincipalTemplate.getPPrincipal().removeAll();
+    switch(comando){
+        case "Inicio":
+            break;
+        case "Perfil":
+            break;
+        case "Amigos":
+            break;
+        case "Productos":
+            break;
+        case "Configuraciones":
+            break;
+        case "Cerrar Sesión":
+            break;
+    }
+}
+```
+
+Note que cada caso dentro del **switch** corresponde al comando de cada botón. Ahora dentro de cada caso vamos a realizar la incorporación de cada uno de los componentes de acuerdo a la petición. Vamos a hacer el ejemplo para el componente inicio, sin embargo para el resto de los componentes es igual:
+
+***Nota:** La opción cerrar sesión tendrá un tratamiento diferente y se discutirá de esto al final por ahora se dejara vacía.*
+
+* Primero se obtiene el panel que se va a remplazar desde la clase **VistaPrincipalTemplate** con su método **get** correspondiente en este caso llamaremos al panel **pPrincipal**:
+```javascript
+case "Inicio":
+    vistaPrincipalTemplate.getPPrincipal();
+    break;
+```
+
+* Le indicamos ahora al panel que le vamos a agregar un componente:
+```javascript
+case "Inicio":
+    vistaPrincipalTemplate.getPPrincipal().add();
+    break;
+```
+
+* Ahora debemos indicarle al panel que componente sera agregado, para esto vamos a realizar una **ejemplificación anonima del componente** en cuestión en este caso será el componente gráfico **inicio**, hacemos entonces la ejemplificación de la clase **InicioComponent**:
+
+```javascript
+case "Inicio":
+    vistaPrincipalTemplate.getPPrincipal().add(new InicioComponent());
+    break;
+```
+
+* Sin embargo como sabemos la clase **Component** no cuenta con características gráficas por lo que debemos llamar a su clase **Template** correspondiente, lo haremos a traves del método **get** de esta:
+
+```javascript
+case "Inicio":
+    vistaPrincipalTemplate.getPPrincipal().add(
+        new InicioComponent().getInicioTemplate()
+    );
+    break;
+```
+Se re acomoda el código para no ocupar mucho espacio horizontal.
+
+Esto se realiza con los demás componentes y en teoría estaría listo, sin embargo si ejecutamos nuestra aplicación y oprimimos los botones notaremos que este no realiza ningún cambio aparente.
+
+**¿Por qué sucede esto?**
+
+Hacen falta un par de configuraciones adicionales:
+* Para empezar cada vez que se vuelva a llamar un nuevo componente para ser incorporado en el panel **pPrincipal** es necesario que se remueva todo lo que este contiene, para que esto sea posible debemos llamar a su método **removeAll()**. Esto debe hacerse justamente antes de que empiece el switch:
+
+```javascript
+public void mostrarComponente(String comando){
+    vistaPrincipalTemplate.getPPrincipal().removeAll();
+
+    ...
+```
+
+* Cada vez que el componente sea agregado en el panel **pPrincipal** se debe actualizar toda la ventana para que esta esta pueda mostrar en la pantalla los cambios ocurridos. Para esto debemos llamar al método **repaint()**. Como este método se realiza una vez se haya incorporado el componente en el panel se debe escribir justo debajo del switch:
+
+```javascript
+public void mostrarComponente(String comando){
+    vistaPrincipalTemplate.getPPrincipal().removeAll();
+    switch(comando){
+        ...
+        ...
+    }
+    vistaPrincipalTemplate.repaint();
+}
+```
+
+Si ejecutamos nuestra aplicación y oprimimos los botones de la navegación nos damos cuenta de que ya reemplaza los componentes en el panel principal:
+
+<div align='center'>
+    <img  src='./resources/interfaz5.png'>
+    <p>VentanaPrincipal una vez se oprimió el botón Inicio</p>
+</div>
+
+<div align='center'>
+    <img  src='./resources/interfaz6.png'>
+    <p>VentanaPrincipal una vez se oprimió el botón Configuraciones</p>
+</div>
+
+## Configuración de la opción cerrar sesión
+
+Cuando oprimamos este botón queremos que la vista principal deje de ser visible y podamos ver de nuevo el Login. Una opción simple puede ser crear un objeto de tipo **LoginComponent**  desde la clase **VistaPrincipalComponent**, ejemplificarla y decirla a la clase **VistaPrincipalTemplate** que deje de ser visible.
+
+Sin embargo debemos recordar que cuando se inicio la aplicación la clase ejecutora **App** ya creo un objeto en memoria del componente **login**, y si realizamos el proceso anterior descrito estaríamos creando otro objeto en memoria nuevo del componente **login** cada vez que cerramos sesión.
+
+De hecho si echamos un vistazo a nuestra clase **LoginComponent** en su método **Entrar** notamos que cada vez que se entra a la ventana principal crea un nuevo objeto de esta:
+
+<div align='center'>
+    <img  src='./resources/codigo5.png'>
+    <p>Creación de un nuevo objeto cada vez que se entra a la aplicación</p>
+</div>
+
+Esto es un problema, imaginen que un usuario entra y cierra sesión 10 veces, en memoria se estaría creando un objeto tanto del componente  **login** como de **VistaPrincipal** debemos arreglar esto.
+
+Para empezar debemos agregar el método **get** de su clase **Template** correspondiente tanto en el componente **vistaPrincipal** como en el componente **login**:
+**LoginComponent:**
+```javascript
+public LoginTemplate getLoginTemplate(){
+    return this.loginTemplate;
+}
+```
+**VistaPrincipalComponent**
+```javascript
+public VistaPrincipalTemplate getVistaPrincipalTemplate(){
+    return this.vistaPrincipalTemplate;
+}
+```
+
+Debemos hacer una **inyección de dependencia entre componentes** para estos dos, como el programa inicia con el login la inyección se realizara desde la clase **LoginComponent** a la clase **VistaPrincipal**:
+
+* En la clase **LoginComponent**:
+cuando ejemplifiquemos la clase **VistaPrincipalComponent** y le pasamos por parámetro el **this** para mandar el objeto de esta clase inyectado:
+```javascript
+this.vistaPrincipal = new VistaPrincipalComponent(this);
+```
+
+* En la clase **VistaPrincipal**:
+Vamos a recibir por parámetro un objeto de la clase **LoginComponent** y lo igualamos a un objeto (atributo) declarado del mismo:
+
+```javascript
+private VistaPrincipalTemplate vistaPrincipalTemplate;
+
+public VistaPrincipalComponent(LoginComponent loginComponent){
+    this.loginComponent = loginComponent;
+    ...
+}
+```
+
+La inyección ya esta hecha y ahora tenemos una comunicación bidireccional entre ambos objetos, sin embargo aun no hemos evitado la creación de muchos objetos del componente **VistaPrincipal** para esto nos ubicamos ahora en nuestra clase **LoginComponent** en el método **entrar** y realizamos el siguiente cambio:
+```javascript
+public void entrar(){
+    if(vistaPrincipal == null)
+        this.vistaPrincipal = new VistaPrincipalComponent(this);
+    else
+        this.vistaPrincipal.getVistaPrincipalTemplate().setVisible(true);
+    loginTemplate.setVisible(false);
+}
+```
+
+En el anterior codigo estamos haciendo lo siguiente:
+* Preguntamos si el objeto de la clase ***VistaPrincipalComponent** esta vacío, si aun no se ha entrado este efectivamente estará vacío ya que no se ha ejemplificado antes.
+    * Si este esta vacío se ejemplifica enviando como argumento una referencia de la clase **LoginComponent** con un **this** y asi realizar la inyección.
+    * Si este ya se ha ejemplificado previamente entonces vamos a obtener la clase **VistaPrincipalTemplate** mediante el método **get** creado y le vamos a indicar que sea Visible nuevamente.
+* Para ambos casos la visibilidad del Login cambiara para que no se vea en pantalla.
+
+Ya hemos arreglado nuestro problema ahora solo nos queda configurar finalmente nuestra opción de cerrar sesión. Nos ubicamos en el método **mostrarComponente** de la clase **VistaPrincipalComponent** en la opción **Cerrar Sesión** y ponemos:
+
+```javascript
+case "Cerrar Sesión":
+    this.loginComponent.getLoginTemplate().setVisible(true);
+    this.vistaPrincipalTemplate.setVisible(false);
+    break;
+```
+
+De esta manera hemos controlado la forma de salir de sesión y entrar a la ventana principal de forma correcta.
+
+# Resultado
+Si has llegado hasta aquí **!felicitaciones!** has aprendido como incorporar componentes gráficos a la ventana principal para crear un Single-Page App. Aprendiste también como realizar enrutamiento para gestionar la visibilidad de los componentes dentro de la ventana principal. Ademas hemos corregido la creación masiva de objetos de los componentes de **login** y **vistaPrincipal**.
+
+# Actividad
+
+Realizar la incorporación de componentes gráficos sobre la ventana principal de sus proyectos y realizar enrutamiento.

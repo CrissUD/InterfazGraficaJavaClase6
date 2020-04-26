@@ -16,8 +16,6 @@ public class VistaPrincipalComponent {
     //Declaración Componentes
     private BarraTituloComponent barraTituloComponent;
     private NavegacionUsuarioComponent navegacionUsuarioComponent;
-    private InicioComponent inicioComponent;
-    private ConfiguracionesComponent configuracionesComponent;
     private LoginComponent loginComponent;
 
     public VistaPrincipalComponent(LoginComponent loginComponent){
@@ -25,8 +23,6 @@ public class VistaPrincipalComponent {
         this.vistaPrincipalTemplate= new VistaPrincipalTemplate(this);
         this.barraTituloComponent = new BarraTituloComponent();
         this.navegacionUsuarioComponent = new NavegacionUsuarioComponent(this);
-        this.inicioComponent = new InicioComponent();
-        this.configuracionesComponent = new ConfiguracionesComponent(this);
 
         vistaPrincipalTemplate.getPBarra().add(
             barraTituloComponent.getBarraTituloTemplate()
@@ -34,17 +30,18 @@ public class VistaPrincipalComponent {
         vistaPrincipalTemplate.getPNavegacion().add(
             navegacionUsuarioComponent.getNavegacionUsuarioTemplate()
         );
-        // vistaPrincipalTemplate.getPPrincipal().add(
-        //     inicioComponent.getInicioTemplate()
-        // );
     }
 
-    public void mostrarPanel(String comando){
+    public VistaPrincipalTemplate getVistaPrincipalTemplate(){
+        return this.vistaPrincipalTemplate;
+    }
+
+    public void mostrarComponente(String comando){
         vistaPrincipalTemplate.getPPrincipal().removeAll();
         switch(comando){
             case "Inicio":
                 vistaPrincipalTemplate.getPPrincipal().add(
-                    inicioComponent.getInicioTemplate()
+                    new InicioComponent().getInicioTemplate()
                 );
                 break;
             case "Perfil":
@@ -64,12 +61,12 @@ public class VistaPrincipalComponent {
                 break;
             case "Configuraciones":
                 vistaPrincipalTemplate.getPPrincipal().add(
-                    configuracionesComponent.getConfiguracionesTemplate()
+                    new ConfiguracionesComponent().getConfiguracionesTemplate()
                 );
                 break;
             case "Cerrar Sesión":
-            this.loginComponent.getLoginTemplate().setVisible(true);
-            this.vistaPrincipalTemplate.setVisible(false);
+                this.loginComponent.getLoginTemplate().setVisible(true);
+                this.vistaPrincipalTemplate.setVisible(false);
                 break;
         }
         vistaPrincipalTemplate.repaint();
