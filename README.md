@@ -883,7 +883,7 @@ Si ejecutamos nuestra aplicación y oprimimos los botones de la navegación nos 
 
 # Control en la creación de componentes gráficos en memoria
 
-Cuando oprimamos el botón **Cerrar sesión** queremos que la vista principal deje de ser visible y podamos ver de nuevo el Login. Una opción simple puede ser crear un objeto de tipo **LoginComponent**  desde la clase **VistaPrincipalComponent**, ejemplificarla y decirla a la clase **VistaPrincipalTemplate** que deje de ser visible.
+Cuando oprimamos el botón **Cerrar sesión** queremos que la vista principal deje de ser visible y podamos ver de nuevo el Login. Una opción simple puede ser declarar un objeto de tipo **LoginComponent**  desde la clase **VistaPrincipalComponent**, ejemplificarla y decirle a la clase **VistaPrincipalTemplate** que deje de ser visible:
 
 <div align='center'>
     <img  src='./resources/codigo6.png'>
@@ -899,21 +899,21 @@ De hecho si echamos un vistazo a nuestra clase **LoginComponent** en su método 
     <p>Creación de un nuevo objeto cada vez que se entra a la aplicación</p>
 </div>
 
-Esto es un problema, imaginen que un usuario entra y cierra sesión 10 veces, en memoria se estaría creando un objeto tanto del componente  **login** como de **VistaPrincipal** debemos arreglar esto.
+Esto es un problema, imaginen que un usuario entra y cierra sesión 10 veces, en memoria se estarían creando 10 objetos tanto del componente  **login** como de **VistaPrincipal** debemos arreglar esto.
 
-Para empezar vamos a hacer una **inyección de dependencia entre componentes** para estos dos, como el programa inicia con el login la inyección se realizara desde la clase **LoginComponent** a la clase **VistaPrincipal**:
+Para empezar vamos a hacer una **inyección de dependencia entre componentes** para estos dos y tener una comunicación bidireccional entre los componentes en cuestión. **Esto no significa que siempre que quiera controlar la creación de objeto de algún componente se deba realizar inyección de dependencia**, en este caso se hace por que desde el login vamos a gestionar la visibilidad de la ventana principal una vez se inicie sesión y desde la ventana principal vamos a gestionar la visibilidad del login una vez se cierre sesión y para eso necesitamos una comunicación bidireccional. 
 
-* En la clase **LoginComponent**:
-cuando ejemplifiquemos la clase **VistaPrincipalComponent** y le pasamos por parámetro el **this** para mandar el objeto de esta clase inyectado:
+Como el programa inicia con el login la inyección se realizara desde la clase **LoginComponent** a la clase **VistaPrincipalComponent**:
+
+* En la clase **LoginComponent**, nos ubicamos en su método **entrar**. Cuando ejemplifiquemos la clase **VistaPrincipalComponent** y le pasamos por parámetro el **this** para mandar el objeto de esta clase inyectado:
 ```javascript
 this.vistaPrincipal = new VistaPrincipalComponent(this);
 ```
 
-* En la clase **VistaPrincipal**:
-Vamos a recibir por parámetro un objeto de la clase **LoginComponent** y lo igualamos a un objeto (atributo) declarado del mismo:
+* En la clase **VistaPrincipal**, Ahora vamos a recibir por parámetro un objeto de la clase **LoginComponent** y lo igualamos a un objeto (atributo) declarado del mismo:
 
 ```javascript
-private VistaPrincipalTemplate vistaPrincipalTemplate;
+private LoginComponent loginComponent;
 
 public VistaPrincipalComponent(LoginComponent loginComponent){
     this.loginComponent = loginComponent;
@@ -921,7 +921,7 @@ public VistaPrincipalComponent(LoginComponent loginComponent){
 }
 ```
 
-La inyección ya esta hecha y ahora tenemos una comunicación bidireccional entre ambos objetos, sin embargo aun no hemos evitado la creación de muchos objetos del componente **VistaPrincipal** para esto nos ubicamos ahora en nuestra clase **LoginComponent** en el método **entrar** y realizamos el siguiente cambio:
+La inyección ya esta hecha y ahora tenemos una comunicación bidireccional entre ambos componentes gráficos, sin embargo aun no hemos evitado la creación de muchos objetos del componente **VistaPrincipal** para esto nos ubicamos ahora en nuestra clase **LoginComponent** en el método **entrar** y realizamos el siguiente cambio:
 ```javascript
 public void entrar(){
     if(vistaPrincipal == null)
@@ -933,7 +933,7 @@ public void entrar(){
 ```
 
 En el anterior codigo estamos haciendo lo siguiente:
-* Preguntamos si el objeto de la clase **VistaPrincipalComponent** esta vacío, si aun no se ha entrado este efectivamente estará vacío ya que no se ha ejemplificado antes.
+* Preguntamos si el objeto de la clase **VistaPrincipalComponent** esta vacío, si aun no se ha entrado a la vista principal este efectivamente estará vacío ya que no se ha ejemplificado antes.
     * Si este esta vacío se ejemplifica enviando como argumento una referencia de la clase **LoginComponent** con un **this** y asi realizar la inyección.
     * Si este ya se ha ejemplificado previamente entonces vamos a obtener la clase **VistaPrincipalTemplate** mediante el método **get** creado y le vamos a indicar que sea Visible nuevamente.
 * Para ambos casos la visibilidad del Login cambiara para que no se vea en pantalla.
