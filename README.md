@@ -40,7 +40,7 @@ private Font fontBotones, fontPequeña;
 **Ejemplificación:**
 ```javascript
 fontBotones = new Font("LuzSans-Book", Font.PLAIN, 15);
-fontPequeña = new Font("LuzSans-Book", Font.PLAIN, 13);
+fontPequeña = new Font("LuzSans-Book", Font.PLAIN, 12);
 ```
 
 **Métodos get:**

@@ -27,7 +27,7 @@ public class RecursosService {
         fontTitulo = new Font("LuzSans-Book", Font.BOLD, 17);
         fontSubtitulo = new Font("Forte", Font.PLAIN, 13);
         fontBotones = new Font("LuzSans-Book", Font.PLAIN, 15);
-        fontPequeña = new Font("LuzSans-Book", Font.PLAIN, 13);
+        fontPequeña = new Font("LuzSans-Book", Font.PLAIN, 12);
         cMano = new Cursor(Cursor.HAND_CURSOR);
         borderInferiorAzul = BorderFactory.createMatteBorder(0, 0, 2, 0, colorAzul);
         iCerrar = new ImageIcon("Clase6/resources/img/cerrar.png");
