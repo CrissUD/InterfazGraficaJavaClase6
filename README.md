@@ -899,18 +899,18 @@ De hecho si echamos un vistazo a nuestra clase **LoginComponent** en su método 
     <p>Creación de un nuevo objeto cada vez que se entra a la aplicación</p>
 </div>
 
-Esto es un problema, imaginen que un usuario entra y cierra sesión 10 veces, en memoria se estarían creando 10 objetos tanto del componente  **login** como de **VistaPrincipal** debemos arreglar esto.
+Esto es un problema, imaginen que un usuario entra y cierra sesión 10 veces, en memoria se estarían creando 10 objetos tanto del componente  **login** como de **VistaPrincipal**, debemos arreglar esto.
 
-Para empezar vamos a hacer una **inyección de dependencia entre componentes** para estos dos y tener una comunicación bidireccional entre los componentes en cuestión. **Esto no significa que siempre que quiera controlar la creación de objeto de algún componente se deba realizar inyección de dependencia**, en este caso se hace por que desde el login vamos a gestionar la visibilidad de la ventana principal una vez se inicie sesión y desde la ventana principal vamos a gestionar la visibilidad del login una vez se cierre sesión y para eso necesitamos una comunicación bidireccional. 
+Para empezar vamos a hacer una **inyección de dependencia entre componentes** para estos dos y tener una comunicación bidireccional entre los componentes en cuestión. **Esto no significa que siempre que se quiera controlar la creación de objetos de algún componente se deba realizar inyección de dependencia**, en este caso se hace por que desde el login vamos a gestionar la visibilidad de la ventana principal una vez se inicie sesión y desde la ventana principal vamos a gestionar la visibilidad del login una vez se cierre sesión y para eso necesitamos una comunicación bidireccional. 
 
 Como el programa inicia con el login la inyección se realizara desde la clase **LoginComponent** a la clase **VistaPrincipalComponent**:
 
-* En la clase **LoginComponent**, nos ubicamos en su método **entrar**. Cuando ejemplifiquemos la clase **VistaPrincipalComponent** y le pasamos por parámetro el **this** para mandar el objeto de esta clase inyectado:
+* En la clase **LoginComponent**, nos ubicamos en su método **entrar**. Cuando ejemplifiquemos la clase **VistaPrincipalComponent**, le pasamos ahora como argumento el **this** para mandar el objeto de esta clase inyectado:
 ```javascript
 this.vistaPrincipal = new VistaPrincipalComponent(this);
 ```
 
-* En la clase **VistaPrincipal**, Ahora vamos a recibir por parámetro un objeto de la clase **LoginComponent** y lo igualamos a un objeto (atributo) declarado del mismo:
+* En la clase **VistaPrincipalComponent**, ahora vamos a recibir por parámetro un objeto de la clase **LoginComponent** y lo igualamos a un objeto (atributo) declarado del mismo:
 
 ```javascript
 private LoginComponent loginComponent;
@@ -935,7 +935,7 @@ public void entrar(){
 En el anterior codigo estamos haciendo lo siguiente:
 * Preguntamos si el objeto de la clase **VistaPrincipalComponent** esta vacío, si aun no se ha entrado a la vista principal este efectivamente estará vacío ya que no se ha ejemplificado antes.
     * Si este esta vacío se ejemplifica enviando como argumento una referencia de la clase **LoginComponent** con un **this** y asi realizar la inyección.
-    * Si este ya se ha ejemplificado previamente entonces vamos a obtener la clase **VistaPrincipalTemplate** mediante el método **get** creado y le vamos a indicar que sea Visible nuevamente.
+    * Si este ya se ha ejemplificado previamente (por ejemplo se inicio sesión una vez, se cerro la sesión y se volvió a iniciar) entonces vamos a obtener la clase **VistaPrincipalTemplate** mediante el método **get** y le vamos a indicar que sea Visible nuevamente.
 * Para ambos casos la visibilidad del Login cambiara para que no se vea en pantalla.
 
 Ya hemos arreglado nuestro problema ahora solo nos queda configurar finalmente nuestra opción de cerrar sesión. Nos ubicamos en el método **mostrarComponente** de la clase **VistaPrincipalComponent** en la opción **Cerrar Sesión** y ponemos:
@@ -947,11 +947,58 @@ case "Cerrar Sesión":
     break;
 ```
 
-De esta manera hemos controlado la forma de salir de sesión y entrar a la ventana principal de forma correcta.
+De esta manera hemos controlado la forma de iniciar y cerrar sesión controlar la creación de objetos en los componentes gráficos de forma correcta.
+
+Ahora si echamos un vistazo a las demás opciónes de enrutamiento vemos nuevamente que cada vez que se oprime cualquier botón que incorpora los componentes gráficos que se muestran en el panel **pPrincipal** se esta creando un objeto nuevo de estos. Esto es el mismo problema que acabamos de tratar. 
+
+<div align='center'>
+    <img  src='./resources/codigo7.png'>
+    <p>Problema en creación descontrolada de objetos de los componentes gráficos</p>
+</div>
+
+Para corregir esto, una buena alternativa es **declarar** los objetos de los componentes, **ejemplificarlos** en el constructor e **incorporar** ese objeto en las opciones de enrutamiento: 
+
+***Nota:** Se realizara el proceso solo con el componente gráfico **inicio** pero sera igual para los demás componentes*.
+
+**Declaración:**
+```javascript
+private InicioComponent inicioComponent;
+```
+
+**Ejemplificación:**
+```javascript
+// Dentro del constructor
+this.inicioComponent = new InicioComponent();
+```
+
+**Incorporación:**
+```javascript
+// Dentro del método mostrarComponente
+case "Inicio":
+    vistaPrincipalTemplate.getPPrincipal().add(
+        inicioComponent.getInicioTemplate()
+    );
+    break;
+```
+
+Podemos notar que este enfoque funciona y tenemos de forma controlada la creación de sus componentes, sin embargo como todos los componentes gráficos se van a cargar desde el constructor esto le va a restar rendimiento a nuestra aplicación, imaginen que algún usuario ingresa solamente a revisar los productos y nunca oprime el botón de configuración por ejemplo, se habrá cargado todo el componente de configuraciones en vano y gastara memoria y rendimiento.
+
+Una mejor alternativa es la que usamos en la clase **LoginComponent** donde con un if gestionamos la ejemplificación del objeto asi: 
+
+```javascript
+case "Inicio":
+    if (this.inicioComponent == null)
+        this.inicioComponent = new InicioComponent();
+    vistaPrincipalTemplate.getPPrincipal().add(
+        inicioComponent.getInicioTemplate()
+    );
+    break;
+```
+De esta forma la primera vez que se oprima el botón inicio se creara el objeto en memoria y se incorporara en la ventana principal, pero cuando se vuelva a oprimir simplemente incorporara el objeto que previamente se ejemplifico. Ademas de controlar la cantidad de objetos también lo creamos solamente en caso de ser necesario y de esta forma ganaremos también en el rendimiento de la aplicación.
 
 # Resultado
-Si has llegado hasta aquí **!felicitaciones!** has aprendido como incorporar componentes gráficos a la ventana principal para crear un Single-Page App. Aprendiste también como realizar enrutamiento para gestionar la visibilidad de los componentes dentro de la ventana principal. Ademas hemos corregido la creación masiva de objetos de los componentes de **login** y **vistaPrincipal**.
+Si has llegado hasta aquí **!felicitaciones!** has aprendido como incorporar componentes gráficos a la ventana principal para crear un Single-Page App. Aprendiste también como realizar enrutamiento para gestionar la visibilidad de los componentes dentro de la ventana principal. Ademas hemos corregido la creación masiva de objetos de los componentes cuando queremos gestionar su visibilidad.
 
 # Actividad
 
-Realizar la incorporación de componentes gráficos sobre la ventana principal de sus proyectos y realizar enrutamiento.
+Realizar la incorporación de componentes gráficos sobre la ventana principal de sus proyectos y realizar enrutamiento de tal forma que se controle la creación de objetos en memoria de los componentes.

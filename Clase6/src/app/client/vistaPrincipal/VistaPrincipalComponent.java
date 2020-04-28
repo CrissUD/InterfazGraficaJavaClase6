@@ -16,6 +16,11 @@ public class VistaPrincipalComponent {
     //Declaración Componentes
     private BarraTituloComponent barraTituloComponent;
     private NavegacionUsuarioComponent navegacionUsuarioComponent;
+    private InicioComponent inicioComponent;
+    private PerfilComponent perfilComponent;
+    private AmigosComponent amigosComponent;
+    private ProductosComponent productosComponent;
+    private ConfiguracionesComponent configuracionesComponent;
     private LoginComponent loginComponent;
 
     public VistaPrincipalComponent(LoginComponent loginComponent){
@@ -40,28 +45,38 @@ public class VistaPrincipalComponent {
         vistaPrincipalTemplate.getPPrincipal().removeAll();
         switch(comando){
             case "Inicio":
+                if (this.inicioComponent == null)
+                    this.inicioComponent = new InicioComponent();
                 vistaPrincipalTemplate.getPPrincipal().add(
-                    new InicioComponent().getInicioTemplate()
+                    inicioComponent.getInicioTemplate()
                 );
                 break;
             case "Perfil":
+                if (this.perfilComponent == null)
+                    this.perfilComponent = new PerfilComponent();
                 vistaPrincipalTemplate.getPPrincipal().add(
-                    new PerfilComponent().getPerfilTemplate()
+                    perfilComponent.getPerfilTemplate()
                 );
                 break;
             case "Amigos":
+                if (this.amigosComponent == null)
+                    this.amigosComponent = new AmigosComponent();
                 vistaPrincipalTemplate.getPPrincipal().add(
-                    new AmigosComponent().getAmigosTemplate()
+                    amigosComponent.getAmigosTemplate()
                 );
                 break;
             case "Productos":
+                if (this.productosComponent == null)
+                    this.productosComponent = new ProductosComponent();
                 vistaPrincipalTemplate.getPPrincipal().add(
-                    new ProductosComponent().getProductosTemplate()
+                    productosComponent.getProductosTemplate()
                 );
                 break;
             case "Configuraciones":
+                if (this.configuracionesComponent == null)
+                    this.configuracionesComponent = new ConfiguracionesComponent();
                 vistaPrincipalTemplate.getPPrincipal().add(
-                    new ConfiguracionesComponent().getConfiguracionesTemplate()
+                    configuracionesComponent.getConfiguracionesTemplate()
                 );
                 break;
             case "Cerrar Sesión":
@@ -71,5 +86,4 @@ public class VistaPrincipalComponent {
         }
         vistaPrincipalTemplate.repaint();
     }
-
 }
