@@ -10,13 +10,14 @@ Curso propuesto por el grupo de trabajo Semana de Ingenio y Diseño (**SID**) de
 
 ## Objetivos
 
-* Identificar la creación de componentes gráficos dentro de la Single-page app y como incorporarles a  ventana principal.
+* Identificar la forma de incorporar componentes gráficos dentro de una Single-page app para que sean vistos desde la ventana principal.
 * Comprender el concepto de enrutamiento y como se gestiona la visibilidad de los diferentes componentes dentro de la vista principal.
 * Identificar la comunicación entre componentes para el paso de acciones e información.
+* Reconocer la importancia del control de la creación desmesurada de objetos en memoria y como controlar este problema.
 
 # Antes de comenzar
 
-Para continuar con el ejercicio deberá actualizar la carpeta resources ya que se han agregado nuevas imágenes. Estas las puede descargar en este mismo repositorio entrando a la carpeta **Clase6** seguido de **resources/img**. Puede notar que adentro existe una nueva carpeta llamada perfiles, esta también deberá ser agregada ya que tendrá utilidad en futuras clases.  
+Para continuar con el ejercicio deberá actualizar la carpeta **resources/img** ya que se han agregado nuevas imágenes. Estas las puede descargar en este mismo repositorio entrando a la carpeta **Clase6** seguido de **resources/img**. Puede notar que adentro existe una nueva carpeta llamada perfiles, esta también deberá ser agregada ya que tendrá utilidad en futuras clases.  
 <div align='center'>
     <img  src='./resources/repositorio1.png'>
     <p>Carpeta perfiles dentro de resources/img en el repositorio</p>
@@ -79,6 +80,7 @@ Nuestra ventana principal ya quedo lista para empezar a construir la Single-Page
 En esta clase veremos tres items importantes relacionados con la creación gestión y enrutamiento de componentes gráficos:
 * Construcción e incorporación de componentes dentro de Single-Page app.
 * Enrutamiento y gestión de visibilidad de componentes.
+* Control en la creación de componentes gráficos en memoria.
 
 
 # Construcción e incorporación de componentes dentro de Single-Page app.
@@ -852,9 +854,9 @@ Si ejecutamos nuestra aplicación y oprimimos los botones de la navegación nos 
     <p>VentanaPrincipal una vez se oprimió el botón Configuraciones</p>
 </div>
 
-## Configuración de la opción cerrar sesión
+# Control en la creación de componentes gráficos en memoria
 
-Cuando oprimamos este botón queremos que la vista principal deje de ser visible y podamos ver de nuevo el Login. Una opción simple puede ser crear un objeto de tipo **LoginComponent**  desde la clase **VistaPrincipalComponent**, ejemplificarla y decirla a la clase **VistaPrincipalTemplate** que deje de ser visible.
+Cuando oprimamos el botón **Cerrar sesión** queremos que la vista principal deje de ser visible y podamos ver de nuevo el Login. Una opción simple puede ser crear un objeto de tipo **LoginComponent**  desde la clase **VistaPrincipalComponent**, ejemplificarla y decirla a la clase **VistaPrincipalTemplate** que deje de ser visible.
 
 Sin embargo debemos recordar que cuando se inicio la aplicación la clase ejecutora **App** ya creo un objeto en memoria del componente **login**, y si realizamos el proceso anterior descrito estaríamos creando otro objeto en memoria nuevo del componente **login** cada vez que cerramos sesión.
 
