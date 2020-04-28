@@ -87,7 +87,7 @@ En esta clase veremos tres items importantes relacionados con la creación gesti
 
 ## Antecedentes
  
-Ya verificamos que nuestra ventana principal cuenta con sus respectivos paneles por medio de sus colores, sin embargo ahora que serán reemplazados podemos quitarle el color ya que no serán necesarios. 
+Ya verificamos que nuestra ventana principal cuenta con sus respectivos paneles por medio de sus colores, sin embargo ahora que serán reemplazados podemos quitarle el color a los paneles ya que no será necesario. 
 
 <div align="center">
   <img  src="./resources/codigo1.png">
@@ -111,6 +111,7 @@ Vamos a crear nuestro componente encargado de mostrar la barra de titulo, primer
 </div>
 
 Como recordaremos en nuestra clase la clase **Component** generalmente implementa de alguna interfaz que gestiona eventos, no es obligatorio pero en este caso el componente contendrá el botón que cierra la aplicación por lo que sera necesaria la implementación:
+
 **implementación de interfaz**
 ```javascript
 public class BarraTituloComponent implements ActionListener{
@@ -123,7 +124,7 @@ public void actionPerformed(ActionEvent e) {
 }
 ```
 
-Creamos ahora un atributo de tipo de la clase **Template** y lo ejemplificamos enviándole por parámetro a la misma clase para realizar la inyección:
+Creamos ahora un atributo de tipo de la clase **Template** y lo ejemplificamos enviándole como argumento una referencia a si misma con la palabra clave **this** para realizar la inyección:
 
 **Declaración**
 ```javascript
@@ -134,7 +135,7 @@ private BarraTituloTemplate barraTituloTemplate;
 ```javascript
 this.barraTituloTemplate=  new BarraTituloTemplate(this); //dentro del constructor
 ```
-Se debe añadir un método **get** de su único atributo, en este caso de **barraTituloTemplate** para que otros componentes puedan acceder a la clase gráfica del componente como explicamos en la anterior clase.
+Se debe añadir un método **get** de su único atributo, en este caso de **barraTituloTemplate** para que otros componentes puedan acceder a la clase gráfica del componente como explicamos con anterioridad.
 
 ```javascript
 public BarraTituloTemplate getBarraTituloTemplate() {
@@ -175,14 +176,14 @@ this.setLayout(null);
 this.setVisible(true);
 ```
 
-Note que el tamaño del panel de esta clase **Template** debe ser exactamente igual que el panel en la **VistaPrincipal** que reemplazara:
+Note que el tamaño del panel de esta clase **Template** debe ser exactamente igual que el panel en la **VistaPrincipal** que reemplazara, en este caso va a suplir al panel **pBarra**:
 
 <div align='center'>
     <img  src='./resources/codigo3.png'>
     <p>Mismo tamaño de componente con Panel que reemplazara</p>
 </div>
 
-Vamos a agregar 3 elementos principales, un Logo, un titulo y un botón de cerrar, por lo que realizamos esto como lo veníamos haciendo en nuestras clases anteriores
+Vamos a agregar 3 objetos gráficos principales, un **Logo**, un **titulo** y un **botón de cerrar**, por lo que realizamos esto como lo veníamos haciendo en nuestras clases anteriores:
 
 **Declaración**
 ```javascript
@@ -281,18 +282,18 @@ Ahora viene la parte **más importante** que es la incorporación del componente
 vistaPrincipalTemplate.getPBarra();
 ```
 
-* Le debemos indicar al panel que vamos a agregar un componente gráfico, para eso llamamos a su método de configuración **add**:
+* Una vez obtenemos el panel a remplazar le debemos indicar al panel que vamos a agregar un componente gráfico, para eso llamamos a su método de configuración **add**:
 ```javascript
 //Dentro del constructor
 vistaPrincipalTemplate.getPBarra().add();
 ```
 
-* Debemos especificar que vamos a incorporar dentro entonces dentro de los paréntesis llamamos a la clase **component**:
+* Debemos especificarle que vamos a incorporar, entonces dentro de los paréntesis llamamos a la clase **component** que antes hemos ejemplificado:
 ```javascript
 //Dentro del constructor
 vistaPrincipalTemplate.getPBarra().add(barraTituloComponent);
 ```
-* Sin embargo la clase **BarraTituloComponent** no cuenta con propiedades gráficas, es la case **BarraTituloTemplate** la que si las tiene, es por eso que el editor muestre un error con el código anterior, sin embargo si recordamos nuestra clase **BarraTituloComponent** tiene un método **get** que nos devuelve esta clase **Template** asi que la invocaremos:
+* Sin embargo la clase **BarraTituloComponent** no cuenta con propiedades gráficas, es la case **BarraTituloTemplate** la que si las tiene, es por eso que el editor muestra un error con el código anterior. Sin embargo si recordamos nuestra clase **BarraTituloComponent** tiene un método **get** que nos devuelve esta clase **Template** esta es la clase que tiene propiedades gráficas, asi que la invocaremos:
 ```javascript
 //Dentro del constructor
 vistaPrincipalTemplate.getPBarra().add(
@@ -328,7 +329,7 @@ public class NavegacionUsuarioComponent implements ActionListener {
 }
 ```
 
-Creamos ahora un atributo de tipo de la clase **Template** y lo ejemplificamos enviándole por parámetro a la misma clase para realizar la inyección:
+Creamos ahora un atributo de tipo de la clase **Template** y lo ejemplificamos enviándole como argumento a si mismo con la palabra clave **this** para realizar la inyección:
 
 **Declaración**
 ```javascript
@@ -340,7 +341,7 @@ private NavegacionUsuarioTemplate navegacionUsuarioTemplate;
 this.navegacionUsuarioTemplate =  new NavegacionUsuarioTemplate(this); //dentro del constructor
 ```
 
-Se debe generar también su método **get** de su clase **Template** correspondiente:
+Se debe generar también el método **get** de su clase **Template** correspondiente:
 
 ```javascript
 public NavegacionUsuarioTemplate getNavegacionUsuarioTemplate() {
@@ -373,7 +374,7 @@ public NavegacionUsuarioTemplate(NavegacionUsuarioComponent navegacionUsuarioCom
 }
 ```
 
-Se dan las propiedades gráficas al componente gráfico y se debe prestar atención al tamaño ya que debe ser el mismo al panel en la ventana principal que va a reemplazar:
+Se dan las propiedades gráficas al componente gráfico y se debe prestar atención al tamaño ya que debe ser el mismo al panel en la ventana principal que va a reemplazar, en este caso sustituye al panel **pNavegacion**:
 ```javascript
 // Dentro del constructor
 this.setSize(250, 700);
@@ -381,7 +382,15 @@ this.setLayout(null);
 this.setVisible(true);
 ```
 
-Este componente va a contener El nombre del usuario con una foto de el, un eslogan y una serie de botones para que el usuario pueda navegar dentro de la aplicación, para tener una separación dentro se tendrán 2 paneles, uno que muestra la información del usuario (nombre, foto, eslogan) y el otro que muestra los botones de navegación.
+Este componente va a contener los siguientes objetos gráficos:
+
+* Panel que muestra información del usuario:
+    * Label con un icono de usuario.
+    * Label con el nombre de un usuario.
+    * Label con fotografiá de un usuario.
+    * Label con un pequeño eslogan.
+* Panel que contiene los botones de navegación:
+    * Botones de navegación (serán 6 en total)
 
 **Declaraciones:**
 ```javascript
@@ -454,7 +463,9 @@ public void crearJLabels(){
     this.pSuperior.add(lImagenUsuario);
 
     this.lEslogan = sObjGraficos.construirJLabel(
-        "<html><div align='center'> Nuestros clientes son <br/>lo mas importante</div></html>",  (this.pSuperior.getWidth()-180)/2, 265, 180, 40, null, Color.WHITE, null, sRecursos.getFontPequeña()
+        "<html><div align='center'> Nuestros clientes son <br/>lo mas importante</div></html>",  
+        (this.pSuperior.getWidth()-180)/2, 265, 180, 40, 
+        null, Color.WHITE, null, sRecursos.getFontPequeña()
     );
     this.pSuperior.add(lEslogan);
 }
@@ -470,66 +481,73 @@ Noten que en el label **lEslogan** hay algo diferente, y es que cuando enviamos 
 
 ```javascript
 public void crearJButtons(){
-        iDimAux = new ImageIcon(
-            iInicio.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
-        );
-        this.bInicio = sObjGraficos.construirJButton(
-            "      Inicio", 30, 30, 200, 40, sRecursos.getCMano(), 
-            iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
-        );
-        this.bInicio.addActionListener(navegacionUsuarioComponent);
-        this.pInferior.add(bInicio);
 
-        iDimAux = new ImageIcon(
-            iPerfil.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
-        );
-        this.bPerfil = sObjGraficos.construirJButton(
-            "      Perfil", 30, 80, 200, 40, sRecursos.getCMano(), 
-            iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
-        );
-        this.bPerfil.addActionListener(navegacionUsuarioComponent);
-        this.pInferior.add(bPerfil);
+    // BOTÓN INICIO
+    iDimAux = new ImageIcon(
+        iInicio.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
+    );
+    this.bInicio = sObjGraficos.construirJButton(
+        "      Inicio", 30, 30, 200, 40, sRecursos.getCMano(), 
+        iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
+    );
+    this.bInicio.addActionListener(navegacionUsuarioComponent);
+    this.pInferior.add(bInicio);
 
-        iDimAux = new ImageIcon(
-            iAmigos.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
-        );
-        this.bAmigos = sObjGraficos.construirJButton(
-            "      Amigos", 30, 130, 200, 40, sRecursos.getCMano(), 
-            iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
-        );
-        this.bAmigos.addActionListener(navegacionUsuarioComponent);
-        this.pInferior.add(bAmigos);
+    // BOTÓN PERFIL
+    iDimAux = new ImageIcon(
+        iPerfil.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
+    );
+    this.bPerfil = sObjGraficos.construirJButton(
+        "      Perfil", 30, 80, 200, 40, sRecursos.getCMano(), 
+        iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
+    );
+    this.bPerfil.addActionListener(navegacionUsuarioComponent);
+    this.pInferior.add(bPerfil);
 
-        iDimAux = new ImageIcon(
-            iProductos.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
-        );
-        this.bProductos = sObjGraficos.construirJButton(
-            "      Productos", 30, 180, 200, 40, sRecursos.getCMano(), 
-            iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
-        );
-        this.bProductos.addActionListener(navegacionUsuarioComponent);
-        this.pInferior.add(bProductos);
+    // BOTÓN AMIGOS
+    iDimAux = new ImageIcon(
+        iAmigos.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
+    );
+    this.bAmigos = sObjGraficos.construirJButton(
+        "      Amigos", 30, 130, 200, 40, sRecursos.getCMano(), 
+        iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
+    );
+    this.bAmigos.addActionListener(navegacionUsuarioComponent);
+    this.pInferior.add(bAmigos);
 
-        iDimAux = new ImageIcon(
-            iConfiguracion.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
-        );
-        this.bConfiguracion = sObjGraficos.construirJButton(
-            "      Configuraciones", 30, 230, 200, 40, sRecursos.getCMano(), 
-            iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
-        );
-        this.bConfiguracion.addActionListener(navegacionUsuarioComponent);
-        this.pInferior.add(bConfiguracion);
+    // BOTÓN PRODUCTOS
+    iDimAux = new ImageIcon(
+        iProductos.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
+    );
+    this.bProductos = sObjGraficos.construirJButton(
+        "      Productos", 30, 180, 200, 40, sRecursos.getCMano(), 
+        iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
+    );
+    this.bProductos.addActionListener(navegacionUsuarioComponent);
+    this.pInferior.add(bProductos);
 
-        iDimAux = new ImageIcon(
-            iCerrarSesion.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
-        );
-        this.bCerrarSesion = sObjGraficos.construirJButton(
-            "      Cerrar Sesión", 30, 280, 200, 40, sRecursos.getCMano(), 
-            iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
-        );
-        this.bCerrarSesion.addActionListener(navegacionUsuarioComponent);
-        this.pInferior.add(bCerrarSesion);
-    }
+    // BOTÓN CONFIGURACIÓN
+    iDimAux = new ImageIcon(
+        iConfiguracion.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
+    );
+    this.bConfiguracion = sObjGraficos.construirJButton(
+        "      Configuraciones", 30, 230, 200, 40, sRecursos.getCMano(), 
+        iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
+    );
+    this.bConfiguracion.addActionListener(navegacionUsuarioComponent);
+    this.pInferior.add(bConfiguracion);
+
+    // BOTÓN CERRAR SESIÓN
+    iDimAux = new ImageIcon(
+        iCerrarSesion.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
+    );
+    this.bCerrarSesion = sObjGraficos.construirJButton(
+        "      Cerrar Sesión", 30, 280, 200, 40, sRecursos.getCMano(), 
+        iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
+    );
+    this.bCerrarSesion.addActionListener(navegacionUsuarioComponent);
+    this.pInferior.add(bCerrarSesion);
+}
 ```
 
 Estos botones tienen unas características peculiares:
@@ -539,6 +557,7 @@ Estos botones tienen unas características peculiares:
     <img  src='./resources/codigo4.png'>
     <p>Separación de texto con icono dentro del botón</p>
 </div>
+
 * El botón esta vez cuenta con una dirección hacia la izquierda por lo que se envía como argumento **"l"** para el parámetro **dirección**.
 * No tienen fondo por lo que se envía como argumento un **false** para el parámetro **esSolido**.
 
@@ -551,7 +570,7 @@ this.crearJLabels();
 this.crearJButtons();
 ```
 
-Nuestro componente gráfico esta casi listo solo falta realizar la configuración de los eventos de acción pero esto se discutirá en la siguiente sección **Enrutamiento y gestión de visibilidad de componentes**. por el momento vamos a incorporarlo en la vista principal
+Nuestro componente gráfico esta casi listo solo falta realizar la configuración de los eventos de acción pero esto se discutirá en la siguiente sección **Enrutamiento y gestión de visibilidad de componentes**. por el momento vamos a incorporarlo en la vista principal.
 
 ### **Incorporación de componente en la Single-Page app**
 
