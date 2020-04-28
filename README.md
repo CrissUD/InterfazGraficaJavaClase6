@@ -132,8 +132,7 @@ private BarraTituloTemplate barraTituloTemplate;
 ```javascript
 this.barraTituloTemplate=  new BarraTituloTemplate(this); //dentro del constructor
 ```
-
-A continuación mostraremos otra característica de las clases **Component**, tampoco es obligatorio realizarse pero habrán casos en los que si lo será, sobretodo con componentes que serán llamados desde otros como es el caso del componente actual. Se debe añadir un método **get** de su único atributo, en este caso de **barraTituloTemplate**.
+Se debe añadir un método **get** de su único atributo, en este caso de **barraTituloTemplate** para que otros componentes puedan acceder a la clase gráfica del componente como explicamos en la anterior clase.
 
 ```javascript
 public BarraTituloTemplate getBarraTituloTemplate() {
@@ -339,7 +338,7 @@ private NavegacionUsuarioTemplate navegacionUsuarioTemplate;
 this.navegacionUsuarioTemplate =  new NavegacionUsuarioTemplate(this); //dentro del constructor
 ```
 
-Al ser este un componente que también sera incorporado, este también contara con su método **get** de su clase **Template** correspondiente:
+Se debe generar también su método **get** de su clase **Template** correspondiente:
 
 ```javascript
 public NavegacionUsuarioTemplate getNavegacionUsuarioTemplate() {
@@ -868,21 +867,7 @@ De hecho si echamos un vistazo a nuestra clase **LoginComponent** en su método 
 
 Esto es un problema, imaginen que un usuario entra y cierra sesión 10 veces, en memoria se estaría creando un objeto tanto del componente  **login** como de **VistaPrincipal** debemos arreglar esto.
 
-Para empezar debemos agregar el método **get** de su clase **Template** correspondiente tanto en el componente **vistaPrincipal** como en el componente **login**:
-**LoginComponent:**
-```javascript
-public LoginTemplate getLoginTemplate(){
-    return this.loginTemplate;
-}
-```
-**VistaPrincipalComponent**
-```javascript
-public VistaPrincipalTemplate getVistaPrincipalTemplate(){
-    return this.vistaPrincipalTemplate;
-}
-```
-
-Debemos hacer una **inyección de dependencia entre componentes** para estos dos, como el programa inicia con el login la inyección se realizara desde la clase **LoginComponent** a la clase **VistaPrincipal**:
+Para empezar vamos a hacer una **inyección de dependencia entre componentes** para estos dos, como el programa inicia con el login la inyección se realizara desde la clase **LoginComponent** a la clase **VistaPrincipal**:
 
 * En la clase **LoginComponent**:
 cuando ejemplifiquemos la clase **VistaPrincipalComponent** y le pasamos por parámetro el **this** para mandar el objeto de esta clase inyectado:
@@ -914,7 +899,7 @@ public void entrar(){
 ```
 
 En el anterior codigo estamos haciendo lo siguiente:
-* Preguntamos si el objeto de la clase ***VistaPrincipalComponent** esta vacío, si aun no se ha entrado este efectivamente estará vacío ya que no se ha ejemplificado antes.
+* Preguntamos si el objeto de la clase **VistaPrincipalComponent** esta vacío, si aun no se ha entrado este efectivamente estará vacío ya que no se ha ejemplificado antes.
     * Si este esta vacío se ejemplifica enviando como argumento una referencia de la clase **LoginComponent** con un **this** y asi realizar la inyección.
     * Si este ya se ha ejemplificado previamente entonces vamos a obtener la clase **VistaPrincipalTemplate** mediante el método **get** creado y le vamos a indicar que sea Visible nuevamente.
 * Para ambos casos la visibilidad del Login cambiara para que no se vea en pantalla.
