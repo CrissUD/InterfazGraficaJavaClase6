@@ -77,13 +77,13 @@ Nuestra ventana principal ya quedo lista para empezar a construir la Single-Page
 
 # Componentes Gráficos dentro de un Single-Page App y enrutamiento.
 
-En esta clase veremos tres items importantes relacionados con la creación gestión y enrutamiento de componentes gráficos:
-* Construcción e incorporación de componentes dentro de Single-Page app.
-* Enrutamiento y gestión de visibilidad de componentes.
+En esta clase veremos tres items importantes relacionados con la creación, gestión y enrutamiento de componentes gráficos:
+* Construcción e incorporación de componentes gráficos dentro de Single-Page app.
+* Enrutamiento y gestión de visibilidad de componentes gráficos.
 * Control en la creación de componentes gráficos en memoria.
 
 
-# Construcción e incorporación de componentes dentro de Single-Page app.
+# Construcción e incorporación de componentes gráficos dentro de Single-Page app.
 
 ## Antecedentes
  
@@ -157,7 +157,7 @@ private ObjGraficosService sObjGraficos;
 private RecursosService sRecursos;
 ```
 
-**recibimiento de servicios y clase Component**
+**Recibimiento de servicios y clase Component**
 ```javascript
 public BarraTituloTemplate(BarraTituloComponent barraTituloComponent){
 
@@ -206,7 +206,7 @@ public void crearObjetosDecoradores(){
 }
 ```
 
-**método crearJButtons:**
+**Método crearJButtons:**
 
 ```javascript
 public void crearJButtons(){
@@ -291,12 +291,12 @@ vistaPrincipalTemplate.getPBarra();
 vistaPrincipalTemplate.getPBarra().add();
 ```
 
-* Debemos especificarle que vamos a incorporar, entonces dentro de los paréntesis llamamos a la clase **component** que antes hemos ejemplificado:
+* Debemos especificarle que vamos a incorporar, entonces dentro de los paréntesis llamamos a la clase **Component** que antes hemos ejemplificado:
 ```javascript
 //Dentro del constructor
 vistaPrincipalTemplate.getPBarra().add(barraTituloComponent);
 ```
-* Sin embargo la clase **BarraTituloComponent** no cuenta con propiedades gráficas, es la case **BarraTituloTemplate** la que si las tiene, es por eso que el editor muestra un error con el código anterior. Sin embargo si recordamos nuestra clase **BarraTituloComponent** tiene un método **get** que nos devuelve esta clase **Template** esta es la clase que tiene propiedades gráficas, asi que la invocaremos:
+* Sin embargo la clase **BarraTituloComponent** no cuenta con propiedades gráficas, es la clase **BarraTituloTemplate** la que si las tiene ya que hereda de un **JPanel**, es por eso que el editor muestra un error con el código anterior. Sin embargo si recordamos nuestra clase **BarraTituloComponent** tiene un método **get** que nos devuelve esta clase **Template**, asi que la invocaremos:
 ```javascript
 //Dentro del constructor
 vistaPrincipalTemplate.getPBarra().add(
@@ -478,7 +478,7 @@ public void crearJLabels(){
 }
 ```
 
-Noten que en el label **lEslogan** hay algo diferente, y es que cuando enviamos un texto estamos enviando unas etiquetas **HTML** esto es debido a que no podemos dar saltos de linea dentro de un label de forma normal es decir si escribimos **\n** no va a funcionar, es por eso que hacemos uso de etiquetas html para poder dar saltos de linea a nuestro texto y ademas brindar de varias otras características como: 
+Noten que en el label **lEslogan** hay algo diferente, y es que cuando enviamos un texto estamos enviando unas etiquetas **HTML** esto es debido a que no podemos dar saltos de linea dentro de un label de forma normal, es decir si escribimos **\n** no va a funcionar, es por eso que hacemos uso de etiquetas html para poder dar saltos de linea a nuestro texto y ademas brindar de varias otras características como: 
 * **`<html>`** indica que se va a iniciar un formato html y se debe cerrar al final con **`</html>`**.
 * **`<div align='center'>`** Le da a nuestro texto propiedad de centrado, la etiqueta **div** debe tener una etiqueta de cerrado **`</div>`**.
 * **`<div align='justify'>`** Le da a nuestro texto propiedad de texto justificado, la etiqueta **div** debe tener una etiqueta de cerrado **`</div>`**.
@@ -577,11 +577,11 @@ this.crearJLabels();
 this.crearJButtons();
 ```
 
-Nuestro componente gráfico esta casi listo solo falta realizar la configuración de los eventos de acción pero esto se discutirá en la siguiente sección **Enrutamiento y gestión de visibilidad de componentes**. por el momento vamos a incorporarlo en la vista principal.
+Nuestro componente gráfico esta casi listo solo falta realizar la configuración de los eventos de acción pero esto se discutirá en la siguiente sección **Enrutamiento y gestión de visibilidad de componentes gráficos**. Por el momento vamos a incorporarlo en la vista principal.
 
 ### **Incorporación de componente en la Single-Page app**
 
-Nos vamos a ubicar nuevamente en nuestra clase **VistaPrincipalComponent**, allí vamos a declarar un objeto de nuestro componente **navegacionUsuario** y como se explico en la clase anterior debe hacerse el llamando exclusivamente a la clase **Component**:
+Nos vamos a ubicar nuevamente en nuestra clase **VistaPrincipalComponent**, allí vamos a declarar un objeto de nuestro componente **navegacionUsuario** y como se explico en la clase anterior debe hacerse el llamando exclusivamente a la clase **Component**.
 
 **Declaración:**
 ```javascript
@@ -610,7 +610,7 @@ Si corremos nuestra aplicación y abrimos nuestra ventana principal notamos que 
 
 Sin embargo al dar click sobre cualquiera de los botónes, estos no hacen nada aun, esto se discutirá en la siguiente sección.
 
-# Enrutamiento y gestión de visibilidad de componentes
+# Enrutamiento y gestión de visibilidad de componentes gráficos.
 
 Ya tenemos nuestros dos componentes incorporados a la ventana principal, esto nos da una ventaja enorme ya que cada componente tiene su propia responsabilidad y su código sera mucho mas entendible. Lo que queremos hacer ahora es que cuando se oprima cualquiera de los botones del componente **navegacionUsuario** la ventana principal gestionara que componentes se verán dentro del panel **pPrincipal** este proceso se conoce como **enrutamiento** que para paginas web tiene mas sentido ya que esta gestión de visibilidad de componentes se hace mediante rutas en el navegador, sin embargo para introducirnos al proceso se decidió dejar el mismo nombre, al final es el mismo resultado lo que queremos hacer.
 
@@ -683,13 +683,13 @@ this.setVisible(true);
 
 Como se ha explicado antes este debe tener exactamente el mismo tamaño que el panel a remplazar, en este caso sera el panel **pPrincipal**.
 
-***Nota:** Para los otros componentes que creamos (amigos, configuraciones, perfil, productos) sera exactamente el mismo proceso con la diferencia del color en el **setBackground**, deben ser distintos esto para diferenciar cada uno de los componentes.*
+***Nota:** Para los otros componentes que creamos (amigos, configuraciones, perfil, productos) sera exactamente el mismo proceso con la diferencia del color en el **setBackground** deben ser distintos, esto para diferenciar cada uno de los componentes.*
 
 
 
 ## Comunicación bidireccional entre componentes
 
-Como lo que queremos es realizar la gestión desde la clase **VistaPrincipalComponent** pero los botones de activación se encuentra en el componente **navegacionUsuario** debemos hacer que exista una comunicación bidireccional entre ambos componentes para lo que realizaremos una **inyección de dependencia entre componentes gráficos**.
+Como lo que queremos es realizar la gestión de visibilidad desde la clase **VistaPrincipalComponent** pero los botones de activación se encuentra en el componente **navegacionUsuario** debemos hacer que exista una comunicación bidireccional entre ambos componentes para lo que realizaremos una **inyección de dependencia entre componentes gráficos**.
 
 * Primero vamos a la clase **NavegacionUsuarioComponent** y vamos a recibir por parámetro un objeto de tipo **VistaPrincipalComponent**:
 
@@ -709,7 +709,7 @@ public NavegacionUsuarioComponent(VistaPrincipalComponent vistaPrincipalComponen
     ...
 ```
 
-* Ahora en nuestra clase **VistaPrincipalComponent** nos va a salir un error en la linea en que ejemplificamos a la clase componente **NavegacionUsuarioComponent** ya que este nos exige por constructor un objeto de tipo **VistaPrincipalComponent**, simplemente entre los paréntesis colocamos un **this** enviándose a si misma como objeto:
+* Ahora en nuestra clase **VistaPrincipalComponent** nos va a salir un error en la linea en la que ejemplificamos a la clase componente **NavegacionUsuarioComponent** ya que este nos exige el envío de un parámetro por constructor de un objeto de tipo **VistaPrincipalComponent**, simplemente entre los paréntesis colocamos un **this** enviándose a si misma como argumento:
 ```javascript
 this.navegacionUsuarioComponent = new NavegacionUsuarioComponent(this);
 ```
@@ -726,7 +726,7 @@ public void mostrarComponente(String comando){
 
 Aprovechando que todos nuestros botones dentro del componente tienen texto, vamos a tomar su comando (texto del botón) para ser enviado a la clase **VistaPrincipalComponent** y asi gestionar el enrutamiento. De esta forma nos evitamos también la creación de los métodos **get** dentro de la clase **NavegacionUsuarioTemplate**.
 
-Nos posicionamos en la clase **NavegacionUsuarioComponent** y dentro del método implementado vamos a enviar el comando del botón:
+Nos posicionamos en la clase **NavegacionUsuarioComponent** y dentro del método implementado vamos a enviar el comando del botón a la vista principal:
 
 ```javascript
 @Override
@@ -735,12 +735,12 @@ public void actionPerformed(ActionEvent e) {
 }
 ```
 
-del anterior código se pueden notar varias cosas:
+Del anterior código se pueden notar varias cosas:
 * Como la gestión de enrutamiento la haremos desde la vista principal no es necesario realizar una discriminación de acción desde aquí, esto se realizara en la clase **VistaPrincipalComponent**.
 * Podemos notar aquí la importancia de declarar un objeto inyectado para igualarlo dentro del constructor, si esto no se hiciera el objeto inyectado solo existiría dentro del constructor y cuando intentemos llamar al método  **mostrarComponente** desde el método **actionPerformed** nos sacaría un error en ejecución ya que para este entorno no existiría el objeto **vistaPrincipalComponent**.
 * Recordemos que el método **getAtionCommand()** nos va a retornar el texto que contiene el botón que activo el evento (el que se oprimió) en forma de String asi que puede enviarse sin problema como argumento al método **mostrarComponente**. 
 
-Sin embargo como vimos anteriormente para hacer la separación del texto con el icono en cada botón el texto iniciaba con unos espaciós, podemos probar esto realizando una muestra por consola asi:
+Sin embargo, como vimos anteriormente para hacer la separación del texto con el icono en cada botón el texto iniciaba con unos espaciós, podemos probar esto realizando una muestra por consola asi:
 ```javascript
 @Override
 public void actionPerformed(ActionEvent e) {
@@ -775,9 +775,9 @@ Una vez ejecutamos la aplicación y vemos en nuestra consola podemos notar lo si
     <p>Texto de cada botón sin espacios al inicio</p>
 </div>
 
-Se puede observar también que incluso si existe espacio entre el texto este se conserva como es el caso del comando **cerrar Sesión**.
+Se puede observar que incluso si existe espacio entre el texto este se conserva como es el caso del comando **cerrar Sesión**.
 
-***Nota:** El método para mostrar por consola se hizo como una prueba, asi que se puede retirar.*
+***Nota:** El método para mostrar por consola **(System.out.println)** se hizo como una prueba, asi que se puede retirar.*
 
 ## Configuración de Enrutamiento
 
@@ -786,7 +786,6 @@ Una vez recibamos el comando del botón desde el componente **navegacionUsuario*
 
 ```javascript
 public void mostrarComponente(String comando){
-    vistaPrincipalTemplate.getPPrincipal().removeAll();
     switch(comando){
         case "Inicio":
             break;
@@ -804,9 +803,9 @@ public void mostrarComponente(String comando){
 }
 ```
 
-Note que cada caso dentro del **switch** corresponde al comando de cada botón. Ahora dentro de cada caso vamos a realizar la incorporación de cada uno de los componentes de acuerdo a la petición. Vamos a hacer el ejemplo para el componente inicio, sin embargo para el resto de los componentes es igual:
+Note que cada caso dentro del **switch** corresponde al comando de cada botón. Ahora dentro de cada caso vamos a realizar la incorporación de cada uno de los componentes de acuerdo a la petición. Vamos a hacer el ejemplo para el componente **inicio**, sin embargo para el resto de los componentes es igual:
 
-***Nota:** La opción cerrar sesión tendrá un tratamiento diferente y se discutirá de esto al final por ahora se dejara vacía.*
+***Nota:** La opción cerrar sesión tendrá un tratamiento diferente y se discutirá de esto en la sección final **Control en la creación de componentes gráficos en memoria** por ahora se dejara vacía.*
 
 * Primero se obtiene el panel que se va a remplazar desde la clase **VistaPrincipalTemplate** con su método **get** correspondiente en este caso llamaremos al panel **pPrincipal**:
 ```javascript
@@ -822,7 +821,7 @@ case "Inicio":
     break;
 ```
 
-* Ahora debemos indicarle al panel que componente sera agregado, para esto vamos a realizar una **ejemplificación anonima del componente** en cuestión en este caso será el componente gráfico **inicio**, hacemos entonces la ejemplificación de la clase **InicioComponent**:
+* Ahora debemos indicarle al panel que componente sera agregado, para esto podemos realizar una **ejemplificación anonima del componente** en cuestión. Para este caso será el componente gráfico **inicio**, hacemos entonces la ejemplificación de la clase **InicioComponent**:
 
 ```javascript
 case "Inicio":
@@ -846,16 +845,18 @@ Esto se realiza con los demás componentes y en teoría estaría listo, sin emba
 **¿Por qué sucede esto?**
 
 Hacen falta un par de configuraciones adicionales:
-* Para empezar cada vez que se vuelva a llamar un nuevo componente para ser incorporado en el panel **pPrincipal** es necesario que se remueva todo lo que este contiene, para que esto sea posible debemos llamar a su método **removeAll()**. Esto debe hacerse justamente antes de que empiece el switch:
+* Para empezar cada vez que se vuelva a llamar un nuevo componente para ser incorporado en el panel **pPrincipal** es necesario que antes de la incorporación se remueva todo lo que este panel contiene, para que esto sea posible debemos llamar a su método **removeAll()**. Esto debe hacerse justamente antes de que empiece el switch:
 
 ```javascript
 public void mostrarComponente(String comando){
     vistaPrincipalTemplate.getPPrincipal().removeAll();
-
-    ...
+    switch(comando){
+        ...
+        ...
+    }
 ```
 
-* Cada vez que el componente sea agregado en el panel **pPrincipal** se debe actualizar toda la ventana para que esta esta pueda mostrar en la pantalla los cambios ocurridos. Para esto debemos llamar al método **repaint()**. Como este método se realiza una vez se haya incorporado el componente en el panel se debe escribir justo debajo del switch:
+* Cada vez que un componente sea agregado en el panel **pPrincipal** se debe actualizar toda la ventana para que esta esta pueda mostrar en la pantalla los cambios ocurridos. Para esto debemos llamar al método **repaint()**. Como este método se realiza una vez se haya incorporado el componente en el panel se debe escribir justo debajo del switch:
 
 ```javascript
 public void mostrarComponente(String comando){
