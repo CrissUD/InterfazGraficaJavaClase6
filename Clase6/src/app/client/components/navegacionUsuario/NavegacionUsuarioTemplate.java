@@ -69,6 +69,8 @@ public class NavegacionUsuarioTemplate extends JPanel{
     }
 
     public void crearJButtons(){
+
+        // BOTÓN INICIO--------------------------------------------------------------------
         iDimAux = new ImageIcon(
             iInicio.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
         );
@@ -79,6 +81,7 @@ public class NavegacionUsuarioTemplate extends JPanel{
         this.bInicio.addActionListener(navegacionUsuarioComponent);
         this.pInferior.add(bInicio);
 
+        // BOTÓN PERFIL--------------------------------------------------------------------
         iDimAux = new ImageIcon(
             iPerfil.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
         );
@@ -89,6 +92,7 @@ public class NavegacionUsuarioTemplate extends JPanel{
         this.bPerfil.addActionListener(navegacionUsuarioComponent);
         this.pInferior.add(bPerfil);
 
+        // BOTÓN AMIGOS--------------------------------------------------------------------
         iDimAux = new ImageIcon(
             iAmigos.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
         );
@@ -99,6 +103,7 @@ public class NavegacionUsuarioTemplate extends JPanel{
         this.bAmigos.addActionListener(navegacionUsuarioComponent);
         this.pInferior.add(bAmigos);
 
+        // BOTÓN PRODUCTOS--------------------------------------------------------------------
         iDimAux = new ImageIcon(
             iProductos.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
         );
@@ -109,6 +114,7 @@ public class NavegacionUsuarioTemplate extends JPanel{
         this.bProductos.addActionListener(navegacionUsuarioComponent);
         this.pInferior.add(bProductos);
 
+        // BOTÓN CONFIGURACIÓN--------------------------------------------------------------------
         iDimAux = new ImageIcon(
             iConfiguracion.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
         );
@@ -119,6 +125,7 @@ public class NavegacionUsuarioTemplate extends JPanel{
         this.bConfiguracion.addActionListener(navegacionUsuarioComponent);
         this.pInferior.add(bConfiguracion);
 
+        // BOTÓN CERRAR SESIÓN--------------------------------------------------------------------
         iDimAux = new ImageIcon(
             iCerrarSesion.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
         );
@@ -132,6 +139,7 @@ public class NavegacionUsuarioTemplate extends JPanel{
 
     public void crearJLabels(){
 
+        // LABEL ICONO USUARIO--------------------------------------------------------------------
         iDimAux = new ImageIcon(
             iIconoUsuario.getImage().getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING)
         );
@@ -140,11 +148,13 @@ public class NavegacionUsuarioTemplate extends JPanel{
         );
         this.pSuperior.add(lIconoUsuario);
 
+        // LABEL NOMBRE USUARIO--------------------------------------------------------------------
         this.lNombreUsuario = sObjGraficos.construirJLabel(
             "Nombre de Usuario", 40, 20, 200, 40, null, Color.WHITE, null, sRecursos.getFontTitulo()
         );
         this.pSuperior.add(lNombreUsuario);
 
+        // LABEL IMAGEN USUARIO--------------------------------------------------------------------
         iDimAux = new ImageIcon(
             iImagenUsuario.getImage().getScaledInstance(180, 180, Image.SCALE_AREA_AVERAGING)
         );
@@ -153,6 +163,7 @@ public class NavegacionUsuarioTemplate extends JPanel{
         );
         this.pSuperior.add(lImagenUsuario);
 
+        // LABEL ESLOGAN--------------------------------------------------------------------
         this.lEslogan = sObjGraficos.construirJLabel(
             "<html><div align='center'> Nuestros clientes son <br/>lo mas importante</div></html>",  (this.pSuperior.getWidth()-180)/2, 265, 180, 40, null, Color.WHITE, null, sRecursos.getFontPequeña()
         );
