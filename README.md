@@ -947,7 +947,7 @@ case "Cerrar Sesión":
     break;
 ```
 
-De esta manera hemos controlado la forma de iniciar y cerrar sesión controlar la creación de objetos en los componentes gráficos de forma correcta.
+De esta manera hemos controlado la forma de iniciar y cerrar sesión gestionando de forma correcta la creación de objetos en los componentes gráficos.
 
 Ahora si echamos un vistazo a las demás opciónes de enrutamiento vemos nuevamente que cada vez que se oprime cualquier botón que incorpora los componentes gráficos que se muestran en el panel **pPrincipal** se esta creando un objeto nuevo de estos. Esto es el mismo problema que acabamos de tratar. 
 
@@ -994,7 +994,9 @@ case "Inicio":
     );
     break;
 ```
-De esta forma la primera vez que se oprima el botón inicio se creara el objeto en memoria y se incorporara en la ventana principal, pero cuando se vuelva a oprimir simplemente incorporara el objeto que previamente se ejemplifico. Ademas de controlar la cantidad de objetos también lo creamos solamente en caso de ser necesario y de esta forma ganaremos también en el rendimiento de la aplicación.
+***Nota:** Como se esta ejemplificando ahora desde el método mostrarComponente ahora quitamos la ejemplificación que realizamos en el constructor*.
+
+De esta forma la primera vez que se oprima el botón inicio se creara el objeto en memoria y se incorporara en la ventana principal, pero cuando se vuelva a oprimir simplemente incorporará el objeto que previamente se ejemplifico. Ademas de controlar la cantidad de objetos también lo creamos solamente en caso de ser necesario y de esta forma ganaremos también en el rendimiento de la aplicación.
 
 # Resultado
 Si has llegado hasta aquí **!felicitaciones!** has aprendido como incorporar componentes gráficos a la ventana principal para crear un Single-Page App. Aprendiste también como realizar enrutamiento para gestionar la visibilidad de los componentes dentro de la ventana principal. Ademas hemos corregido la creación masiva de objetos de los componentes cuando queremos gestionar su visibilidad.
