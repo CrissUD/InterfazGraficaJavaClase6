@@ -885,7 +885,12 @@ Si ejecutamos nuestra aplicación y oprimimos los botones de la navegación nos 
 
 Cuando oprimamos el botón **Cerrar sesión** queremos que la vista principal deje de ser visible y podamos ver de nuevo el Login. Una opción simple puede ser crear un objeto de tipo **LoginComponent**  desde la clase **VistaPrincipalComponent**, ejemplificarla y decirla a la clase **VistaPrincipalTemplate** que deje de ser visible.
 
-Sin embargo debemos recordar que cuando se inicio la aplicación la clase ejecutora **App** ya creo un objeto en memoria del componente **login**, y si realizamos el proceso anterior descrito estaríamos creando otro objeto en memoria nuevo del componente **login** cada vez que cerramos sesión.
+<div align='center'>
+    <img  src='./resources/codigo6.png'>
+    <p>Posible caso de regreso al Login</p>
+</div>
+
+El anterior ejemplo funciona, sin embargo debemos recordar que cuando se inicio la aplicación la clase ejecutora **App** ya creo un objeto en memoria del componente **login**, y si realizamos el proceso anterior descrito estaríamos creando otro objeto en memoria nuevo del componente **login** cada vez que cerramos sesión y el objeto que se creo desde **App** quedaria en el *limbo*.
 
 De hecho si echamos un vistazo a nuestra clase **LoginComponent** en su método **Entrar** notamos que cada vez que se entra a la ventana principal crea un nuevo objeto de esta:
 
