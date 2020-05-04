@@ -19,14 +19,14 @@ Curso propuesto por el grupo de trabajo Semana de Ingenio y Diseño (**SID**) de
 
 Para continuar con el ejercicio deberá actualizar la carpeta **resources/img** ya que se han agregado nuevas imágenes. Estas las puede descargar en este mismo repositorio entrando a la carpeta **Clase6** seguido de **resources/img**. Puede notar que adentro existe una nueva carpeta llamada perfiles, esta también deberá ser agregada ya que tendrá utilidad en futuras clases.  
 <div align='center'>
-    <img  src='./resources/repositorio1.png'>
+    <img  src='https://i.imgur.com/BNyUTif.png'>
     <p>Carpeta perfiles dentro de resources/img en el repositorio</p>
 </div>
 
 Para nuevas fuentes se utilizo la fuente **luzSanz-Book** pero esta no se encuentra por defecto en Windows, dentro del repositorio encontrara un archivo llamado **LUZRO.TTF**, este archivo lo puede descargar e instalarlo en el paquete de fuentes del sistema entrando al **Panel de control / Funetes** y copiando el archivo allí. Si este proceso no se realiza el programa funcionara con normalidad sin embargo los objetos gráficos que usen esta fuente tendrán la fuente por defecto de Java.
 
 <div align='center'>
-    <img  src='./resources/repositorio2.png'>
+    <img  src='https://i.imgur.com/IoDfXnD.png'>
     <p>Archivo de fuente nueva dentro de repositorio</p>
 </div>
 
@@ -64,14 +64,14 @@ Con lo anterior ya se tendrá todo listo para continuar.
 Recordando nuestro recorrido, el componente gráfico **login** esta listo y funcional, tiene una vista agradable para los usuarios, un código modularizado y optimizado, y realiza eventos por acción permitiendo entre otras cosas cerrar la aplicación, mostrar la información recibida del usuario o abrir la ventana principal.
 
 <div align="center">
-  <img  src="./resources/interfaz1.png">
+  <img  src="https://i.imgur.com/jBS89yY.png">
   <p>Login de usuario en funcionamiento</p>
 </div>
 
 Nuestra ventana principal ya quedo lista para empezar a construir la Single-Page App a traves de componentes gráficos.
 
 <div align="center">
-  <img  src="./resources/interfaz2.png">
+  <img  src="https://i.imgur.com/bJeQrCS.png">
   <p>Vista Principal lista para construirse</p>
 </div>
 
@@ -90,14 +90,14 @@ En esta clase veremos tres items importantes relacionados con la creación, gest
 Ya verificamos que nuestra ventana principal cuenta con sus respectivos paneles por medio de sus colores, sin embargo ahora que serán reemplazados podemos quitarle el color a los paneles ya que no será necesario. 
 
 <div align="center">
-  <img  src="./resources/codigo1.png">
+  <img  src="https://i.imgur.com/k9HNMxp.png.png">
   <p>Paneles de VistaPrincipalTemplate sin color</p>
 </div>
 
 Como realmente en la ventana principal no haremos uso de colores ni fuentes ni bordes también se removerá el uso del servicio RecursosService y la importación de la librería Color.
 
 <div align="center">
-  <img  src="./resources/codigo2.png">
+  <img  src="https://i.imgur.com/oHrCOwQ.png">
   <p>A la izquierda se ve el código removido y a la izquierda el resultado</p>
 </div>
 
@@ -106,7 +106,7 @@ Como realmente en la ventana principal no haremos uso de colores ni fuentes ni b
 Vamos a crear nuestro componente encargado de mostrar la barra de titulo, primero creamos el paquete **barraTitulo** dentro del paquete **Components**, dentro del paquete **barraTitulo** se crearán las clases **barraTituloTemplate** y **BarraTituloComponent**:
 
 <div align="center">
-  <img  src="./resources/paquetes1.png">
+  <img  src="https://i.imgur.com/o6b7tKc.png">
   <p>Creación componente barraTitulo con su respectivo paquete y clases</p>
 </div>
 
@@ -161,9 +161,9 @@ private RecursosService sRecursos;
 ```javascript
 public BarraTituloTemplate(BarraTituloComponent barraTituloComponent){
 
-        this.barraTituloComponent = barraTituloComponent;
-        this.sObjGraficos= ObjGraficosService.getService();
-        this.sRecursos = RecursosService.getService();
+    this.barraTituloComponent = barraTituloComponent;
+    this.sObjGraficos= ObjGraficosService.getService();
+    this.sRecursos = RecursosService.getService();
 }
 ```
 
@@ -179,7 +179,7 @@ this.setVisible(true);
 Note que el tamaño del panel de esta clase **Template** debe ser exactamente igual que el panel en la **VistaPrincipal** que reemplazara, en este caso va a suplir al panel **pBarra**:
 
 <div align='center'>
-    <img  src='./resources/codigo3.png'>
+    <img  src='https://i.imgur.com/MuDDTDA.png'>
     <p>Mismo tamaño de componente con Panel que reemplazara</p>
 </div>
 
@@ -307,7 +307,7 @@ Por cuestiones de espacio horizontal se acomoda la linea de código.
 
 Si corremos nuestra aplicación y abrimos nuestra ventana principal notamos que se ha incorporado exitosamente su primer componente gráfico:
 <div align='center'>
-    <img  src='./resources/interfaz3.png'>
+    <img  src='https://i.imgur.com/Wy9Rx6w.png'>
     <p>Vista principal con su primer componente agregado</p>
 </div>
 
@@ -318,7 +318,7 @@ Incluso al darle click al botón de cerrar este funcionara de forma adecuada.
 Vamos a repetir el mismo proceso para nuestro componente gráfico **navegacionUsuario**  este componente es el encargado de mostrar en pantalla los botones con los que el usuario podrá navegar dentro de la aplicación. Creamos a continuación su paquete dentro del paquete **components** con sus respectivas clases:
 
 <div align='center'>
-    <img  src='./resources/paquetes2.png'>
+    <img  src='https://i.imgur.com/Afy9X3H.png'>
     <p>Creación de componente navegacionUsuario</p>
 </div>
 
@@ -561,7 +561,7 @@ Estos botones tienen unas características peculiares:
 * Todos cuentan con una imagen y ademas un texto, esto es posible y nuestro servicio **ObjGraficosService** esta configurado para estos casos.
 * Para que exista una separación visible entre el icono y el texto, este ultimo empieza con unos espacios de la forma:
 <div align='center'>
-    <img  src='./resources/codigo4.png'>
+    <img  src='https://i.imgur.com/4NoFZpj.png'>
     <p>Separación de texto con icono dentro del botón</p>
 </div>
 
@@ -604,7 +604,7 @@ vistaPrincipalTemplate.getPNavegacion().add(
 
 Si corremos nuestra aplicación y abrimos nuestra ventana principal notamos que se ha incorporado exitosamente el segundo componente:
 <div align='center'>
-    <img  src='./resources/interfaz4.png'>
+    <img  src='https://i.imgur.com/aDdzXnT.png'>
     <p>Vista principal con el componente Navegación usuario agregado</p>
 </div>
 
@@ -621,7 +621,7 @@ La clase que se debe encargar de gestionar que es visible y que no dentro de la 
 Primero vamos a crear los componentes gráficos a los cuales se quiere gestionar su visibilidad en la ventana principal.
 
 <div align='center'>
-    <img  src='./resources/paquetes3.png'>
+    <img  src='https://i.imgur.com/LP3Er7t.png'>
     <p>Creación de componentes para gestionar enrutamiento</p>
 </div>
 
@@ -771,7 +771,7 @@ public void actionPerformed(ActionEvent e) {
 
 Una vez ejecutamos la aplicación y vemos en nuestra consola podemos notar lo siguiente:
 <div align='center'>
-    <img  src='./resources/ejecucion2.png'>
+    <img  src='https://i.imgur.com/zIrf2vz.png'>
     <p>Texto de cada botón sin espacios al inicio</p>
 </div>
 
@@ -872,12 +872,12 @@ public void mostrarComponente(String comando){
 Si ejecutamos nuestra aplicación y oprimimos los botones de la navegación nos damos cuenta de que ya reemplaza los componentes en el panel principal:
 
 <div align='center'>
-    <img  src='./resources/interfaz5.png'>
+    <img  src='https://i.imgur.com/CIHpzzv.png'>
     <p>VentanaPrincipal una vez se oprimió el botón Inicio</p>
 </div>
 
 <div align='center'>
-    <img  src='./resources/interfaz6.png'>
+    <img  src='https://i.imgur.com/6wKXbcj.png'>
     <p>VentanaPrincipal una vez se oprimió el botón Configuraciones</p>
 </div>
 
@@ -886,7 +886,7 @@ Si ejecutamos nuestra aplicación y oprimimos los botones de la navegación nos 
 Cuando oprimamos el botón **Cerrar sesión** queremos que la vista principal deje de ser visible y podamos ver de nuevo el Login. Una opción simple puede ser declarar un objeto de tipo **LoginComponent**  desde la clase **VistaPrincipalComponent**, ejemplificarla y decirle a la clase **VistaPrincipalTemplate** que deje de ser visible:
 
 <div align='center'>
-    <img  src='./resources/codigo6.png'>
+    <img  src='https://i.imgur.com/zzIRQv7.png'>
     <p>Posible caso de regreso al Login</p>
 </div>
 
@@ -895,7 +895,7 @@ El anterior ejemplo funciona, sin embargo debemos recordar que cuando se inicio 
 De hecho si echamos un vistazo a nuestra clase **LoginComponent** en su método **Entrar** notamos que cada vez que se entra a la ventana principal crea un nuevo objeto de esta:
 
 <div align='center'>
-    <img  src='./resources/codigo5.png'>
+    <img  src='https://i.imgur.com/LcNe8DZ.png'>
     <p>Creación de un nuevo objeto cada vez que se entra a la aplicación</p>
 </div>
 
@@ -952,7 +952,7 @@ De esta manera hemos controlado la forma de iniciar y cerrar sesión gestionando
 Ahora si echamos un vistazo a las demás opciónes de enrutamiento vemos nuevamente que cada vez que se oprime cualquier botón que incorpora los componentes gráficos que se muestran en el panel **pPrincipal** se esta creando un objeto nuevo de estos. Esto es el mismo problema que acabamos de tratar. 
 
 <div align='center'>
-    <img  src='./resources/codigo7.png'>
+    <img  src='https://i.imgur.com/8csTZXS.png'>
     <p>Problema en creación descontrolada de objetos de los componentes gráficos</p>
 </div>
 
