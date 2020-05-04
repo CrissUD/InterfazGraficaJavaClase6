@@ -751,7 +751,7 @@ public void actionPerformed(ActionEvent e) {
 Cuando ejecutemos nuestro programa y oprimamos cualquier botón del componente **navegacionUsuario** y vemos la consola podemos notar lo siguiente:
 
 <div align='center'>
-    <img  src='./resources/ejecucion1.png'>
+    <img  src='https://i.imgur.com/noESoYT.png'>
     <p>Texto de cada botón con espacios al inicio</p>
 </div>
 
