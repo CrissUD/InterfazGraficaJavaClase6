@@ -23,7 +23,7 @@ Para continuar con el ejercicio deberá actualizar la carpeta **resources/img** 
     <p>Carpeta perfiles dentro de resources/img en el repositorio</p>
 </div>
 
-Para nuevas fuentes se utilizo la fuente **luzSanz-Book** pero esta no se encuentra por defecto en Windows, dentro del repositorio encontrara un archivo llamado **LUZRO.TTF**, este archivo lo puede descargar e instalarlo en el paquete de fuentes del sistema entrando al **Panel de control / Funetes** y copiando el archivo allí. Si este proceso no se realiza el programa funcionara con normalidad sin embargo los objetos gráficos que usen esta fuente tendrán la fuente por defecto de Java.
+Para nuevas fuentes se utilizo la fuente **luzSanz-Book** pero esta no se encuentra por defecto en Windows, dentro del repositorio encontrara un archivo llamado **LUZRO.TTF**, este archivo lo puede descargar e instalarlo en el paquete de fuentes del sistema entrando al **Panel de control / Funetes** y copiando el archivo allí (Esto puede variar un poco entre sistemas operativos). Si este proceso no se realiza el programa funcionara con normalidad sin embargo los objetos gráficos que usen esta fuente tendrán la fuente por defecto de Java.
 
 <div align='center'>
     <img  src='https://i.imgur.com/IoDfXnD.png'>
@@ -103,7 +103,7 @@ Como realmente en la ventana principal no haremos uso de colores ni fuentes ni b
 
 ## Creación e incorporación Componente Barra Titulo
 
-Vamos a crear nuestro componente encargado de mostrar la barra de titulo, primero creamos el paquete **barraTitulo** dentro del paquete **Components**, dentro del paquete **barraTitulo** se crearán las clases **barraTituloTemplate** y **BarraTituloComponent**:
+Vamos a crear nuestro componente encargado de mostrar la barra de titulo, primero creamos el paquete **barraTitulo** dentro del paquete **Components**, dentro del paquete **barraTitulo** se crearán las clases **BarraTituloTemplate** y **BarraTituloComponent**:
 
 <div align="center">
   <img  src="https://i.imgur.com/o6b7tKc.png">
@@ -133,7 +133,7 @@ private BarraTituloTemplate barraTituloTemplate;
 
 **Ejemplificación**
 ```javascript
-this.barraTituloTemplate=  new BarraTituloTemplate(this); //dentro del constructor
+this.barraTituloTemplate = new BarraTituloTemplate(this); //dentro del constructor
 ```
 Se debe añadir un método **get** de su único atributo, en este caso de **barraTituloTemplate** para que otros componentes puedan acceder a la clase gráfica del componente como explicamos con anterioridad.
 
