@@ -97,7 +97,7 @@ Ya verificamos que nuestra ventana principal cuenta con sus respectivos paneles 
 Como realmente en la ventana principal no haremos uso de colores ni fuentes ni bordes también se removerá el uso del servicio RecursosService y la importación de la librería Color.
 
 <div align="center">
-  <img  src="https://i.imgur.com/oHrCOwQ.png">
+  <img  src="https://i.imgur.com/AYE7Vr1.png">
   <p>A la izquierda se ve el código removido y a la izquierda el resultado</p>
 </div>
 
@@ -233,13 +233,13 @@ public void crearJLabels(){
         iLogoApp.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)
     );
     lLogoApp = sObjGraficos.construirJLabel(
-        null, 20, 0, 50, 50, iDimAux, null, null, null
+        null, 20, 0, 50, 50, iDimAux, null, null, null, "c"
     );
     this.add(lLogoApp);
 
     // LABEL TITULO APP--------------------------------------------------------------------
     lTituloApp = sObjGraficos.construirJLabel(
-        "ProductList", 40, 5, 200, 40, null, sRecursos.getColorAzul(), null, fontTituloBarra
+        "ProductList", 40, 5, 200, 40, null, sRecursos.getColorAzul(), null, fontTituloBarra, "c"
     );
     this.add(lTituloApp);
 }
@@ -449,13 +449,13 @@ public void crearJLabels(){
         iIconoUsuario.getImage().getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING)
     );
     this.lIconoUsuario = sObjGraficos.construirJLabel(
-        null, 10, 20, 40, 40, iDimAux, null, null, null
+        null, 10, 20, 40, 40, iDimAux, null, null, null, "c"
     );
     this.pSuperior.add(lIconoUsuario);
 
     // LABEL NOMBRE USUARIO--------------------------------------------------------------------
     this.lNombreUsuario = sObjGraficos.construirJLabel(
-        "Nombre de Usuario", 40, 20, 200, 40, null, Color.WHITE, null, sRecursos.getFontTitulo()
+        "Nombre de Usuario", 40, 20, 200, 40, null, Color.WHITE, null, sRecursos.getFontTitulo(), "c"
     );
     this.pSuperior.add(lNombreUsuario);
 
@@ -464,15 +464,14 @@ public void crearJLabels(){
         iImagenUsuario.getImage().getScaledInstance(180, 180, Image.SCALE_AREA_AVERAGING)
     );
     this.lImagenUsuario = sObjGraficos.construirJLabel(
-        null, (this.pSuperior.getWidth()-180)/2, 75, 180, 180, iDimAux, null, null, null
+        null, (this.pSuperior.getWidth()-180)/2, 75, 180, 180, iDimAux, null, null, null, "c"
     );
     this.pSuperior.add(lImagenUsuario);
 
     // LABEL ESLOGAN--------------------------------------------------------------------
     this.lEslogan = sObjGraficos.construirJLabel(
         "<html><div align='center'> Nuestros clientes son <br/>lo mas importante</div></html>",  
-        (this.pSuperior.getWidth()-180)/2, 265, 180, 40, 
-        null, Color.WHITE, null, sRecursos.getFontPequeña()
+        (this.pSuperior.getWidth()-180)/2, 265, 180, 40, null, Color.WHITE, null, sRecursos.getFontPequeña(), "c"
     );
     this.pSuperior.add(lEslogan);
 }
