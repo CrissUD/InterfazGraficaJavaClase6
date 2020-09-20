@@ -215,7 +215,7 @@ public class NavegacionUsuarioTemplate extends JPanel {
     // LABEL NOMBRE USUARIO--------------------------------------------------------------------
     this.lNombreUsuario = sObjGraficos.construirJLabel(
       "Nombre de Usuario", 
-      (this.pSuperior.getWidth() - 200) / 2, 20, 200, 40,
+      ((this.pSuperior.getWidth() - 200) / 2) + 10, 20, 200, 40,
       null, null, 
       sRecursos.getFontTitulo(), 
       null,

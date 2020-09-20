@@ -10,107 +10,132 @@ Curso propuesto por el grupo de trabajo Semana de Ingenio y Diseño (**SID**) de
 
 ## Objetivos
 
-* Identificar la forma de incorporar componentes gráficos dentro de una Single-page app para que sean vistos desde la ventana principal.
-* Comprender el concepto de enrutamiento y como se gestiona la visibilidad de los diferentes componentes dentro de la vista principal.
-* Identificar la comunicación entre componentes para el paso de acciones e información.
-* Reconocer la importancia del control de la creación desmesurada de objetos en memoria y como controlar este problema.
+* Identificar la forma de incorporar componentes gráficos dentro de una **Single-page app** para que puedan ser visualizados desde la ventana principal.
+* Comprender el concepto de navegación y como se gestiona la visibilidad de los diferentes componentes dentro de la vista principal.
+* Reconocer la comunicación entre componentes para el paso de acciones e información.
+* Considerar la importancia del control en la creación de objetos en memoria y como gestionar la producción desmesurada de estos.
 
 # Antes de comenzar
 
-Para continuar con el ejercicio deberá actualizar la carpeta **resources/img** ya que se han agregado nuevas imágenes. Estas las puede descargar en este mismo repositorio entrando a la carpeta **Clase6** seguido de **resources/img**. Puede notar que adentro existe una nueva carpeta llamada perfiles, esta también deberá ser agregada ya que tendrá utilidad en futuras clases.  
+### **Actualización de Imágenes en recursos**
+
+Para continuar con la lección deberá actualizar la carpeta **resources/images** ya que se han agregado nuevas imágenes. Estas las puede descargar en este mismo repositorio entrando a la carpeta **Clase6** seguido de **resources/images**. Puede notar que adentro existe una nueva carpeta llamada perfiles, esta también deberá ser agregada ya que tendrá utilidad.  
 <div align='center'>
-    <img  src='https://i.imgur.com/BNyUTif.png'>
-    <p>Carpeta perfiles dentro de resources/img en el repositorio</p>
+    <img  src='https://i.imgur.com/ddUtsZN.png'>
+    <p>Carpeta perfiles dentro de resources/images en el repositorio</p>
 </div>
 
-Para nuevas fuentes se utilizo la fuente **luzSanz-Book** pero esta no se encuentra por defecto en Windows, dentro del repositorio encontrara un archivo llamado **LUZRO.TTF**, este archivo lo puede descargar e instalarlo en el paquete de fuentes del sistema entrando al **Panel de control / Funetes** y copiando el archivo allí (Esto puede variar un poco entre sistemas operativos). Si este proceso no se realiza el programa funcionara con normalidad sin embargo los objetos gráficos que usen esta fuente tendrán la fuente por defecto de Java.
+### **Ajustes en el servicio Recursos Service**
 
-<div align='center'>
-    <img  src='https://i.imgur.com/IoDfXnD.png'>
-    <p>Archivo de fuente nueva dentro de repositorio</p>
-</div>
-
-En el servicio **RecursosService** creamos dos nuevos objetos decoradores **Font**:
+En el servicio **RecursosService** se crea un nuevo objeto decorador **Font**:
 
 **Declaración:**
 ```javascript
-private Font fontBotones, fontPequeña;
+// Al inicio del servicio
+private Font fontLigera;
 ```
 
 **Ejemplificación:**
 ```javascript
-fontBotones = new Font("LuzSans-Book", Font.PLAIN, 15);
-fontPequeña = new Font("LuzSans-Book", Font.PLAIN, 12);
+// Dentro del método crearFuentes
+fontLigera = new Font("LuzSans-Book", Font.PLAIN, 12);
 ```
 
-**Métodos get:**
+**Método get:**
 ```javascript
-public Font getFontBotones(){
-    return fontBotones;
-}
-
-public Font getFontPequeña(){
-    return fontPequeña;
-}
+public Font getFontLigera() { return fontLigera; }
 ```
 
-El objeto decorador **fontTitulo** cambio un poco:
+También se crea un objeto tipo **ImageIcon**:
+
+**Declaración:**
 ```javascript
-fontTitulo = new Font("LuzSans-Book", Font.BOLD, 17);
+// Al inicio del servicio
+private ImageIcon iMinimizar;
 ```
 
-Con lo anterior ya se tendrá todo listo para continuar.
+**Ejemplificación:**
+```javascript
+// Dentro del método crearImagenes
+iMinimizar = new ImageIcon("Clase6/resources/images/minimizar.png");
+```
 
-Recordando nuestro recorrido, el componente gráfico **login** esta listo y funcional, tiene una vista agradable para los usuarios, un código modularizado y optimizado, y realiza eventos por acción permitiendo entre otras cosas cerrar la aplicación, mostrar la información recibida del usuario o abrir la ventana principal.
+**Método get:**
+```javascript
+public ImageIcon getIMinimizar() { return iMinimizar; }
+```
+
+Por ultimo se crea un objeto decorador tipo **Color**:
+
+**Declaración:**
+```javascript
+// Al inicio del servicio
+private Color colorGrisClaro;
+```
+
+**Ejemplificación:**
+```javascript
+// Dentro del método crearColores
+colorGrisClaro = new Color(249, 246, 249);
+```
+
+**Método get:**
+```javascript
+public Color getColorGrisClaro(){ return colorGrisClaro; }
+```
+
+### **Recordatorio**
+
+Recordando el recorrido, el componente gráfico **login** esta listo y funcional, tiene una vista agradable para los usuarios, un código modularizado y optimizado, además realiza eventos por acción permitiendo cerrar la aplicación, mostrar la información recibida del usuario o abrir la ventana principal.
 
 <div align="center">
   <img  src="https://i.imgur.com/jBS89yY.png">
   <p>Login de usuario en funcionamiento</p>
 </div>
 
-Nuestra ventana principal ya quedo lista para empezar a construir la Single-Page App a traves de componentes gráficos.
+La ventana principal ya quedo lista para empezar a construir la Single-Page App a traves de componentes gráficos.
 
 <div align="center">
   <img  src="https://i.imgur.com/bJeQrCS.png">
   <p>Vista Principal lista para construirse</p>
 </div>
 
-# Componentes Gráficos dentro de un Single-Page App y enrutamiento.
+# Componentes Gráficos dentro de un Single-Page App y navegación.
 
-En esta clase veremos tres items importantes relacionados con la creación, gestión y enrutamiento de componentes gráficos:
-* Construcción e incorporación de componentes gráficos dentro de Single-Page app.
-* Enrutamiento y gestión de visibilidad de componentes gráficos.
-* Control en la creación de componentes gráficos en memoria.
+En esta sesión se verán tres items importantes relacionados con la creación, gestión y navegación de componentes gráficos:
+* **Construcción e incorporación de componentes gráficos dentro de Single-Page app**.
+* **Navegación y gestión de visibilidad de componentes gráficos**.
+* **Control en la creación de componentes gráficos en memoria**.
 
 
 # Construcción e incorporación de componentes gráficos dentro de Single-Page app.
 
-## Antecedentes
+## Ajustes
  
-Ya verificamos que nuestra ventana principal cuenta con sus respectivos paneles por medio de sus colores, sin embargo ahora que serán reemplazados podemos quitarle el color a los paneles ya que no será necesario. 
+Ya se realizo una maquetización en la ventana principal y esta cuenta con sus respectivos paneles, los cuales se evidencian por medio de sus colores, sin embargo, su contenido será reemplazado, asi que se procede a retirar el color a los paneles. 
 
 <div align="center">
   <img  src="https://i.imgur.com/k9HNMxp.png.png">
   <p>Paneles de VistaPrincipalTemplate sin color</p>
 </div>
 
-Como realmente en la ventana principal no haremos uso de colores ni fuentes ni bordes también se removerá el uso del servicio RecursosService y la importación de la librería Color.
+Realmente en la ventana principal no se usaran objetos decoradores asi que también se removerá el uso del servicio RecursosService y la importación de la librería Color.
 
 <div align="center">
   <img  src="https://i.imgur.com/AYE7Vr1.png">
-  <p>A la izquierda se ve el código removido y a la izquierda el resultado</p>
+  <p>A la izquierda se ve el código removido y a la derecha el resultado</p>
 </div>
 
-## Creación e incorporación Componente Barra Titulo
+## Creación e incorporación del Componente Barra Titulo
 
-Vamos a crear nuestro componente encargado de mostrar la barra de titulo, primero creamos el paquete **barraTitulo** dentro del paquete **Components**, dentro del paquete **barraTitulo** se crearán las clases **BarraTituloTemplate** y **BarraTituloComponent**:
+Se va a incorporar el componente encargado de mostrar la barra de titulo, primero se crea un nuevo paquete **barraTitulo** dentro del paquete **Components**, en el paquete **barraTitulo** se crearán las clases **BarraTituloTemplate** y **BarraTituloComponent**:
 
 <div align="center">
   <img  src="https://i.imgur.com/o6b7tKc.png">
   <p>Creación componente barraTitulo con su respectivo paquete y clases</p>
 </div>
 
-Como recordaremos en nuestra clase la clase **Component** generalmente implementa de alguna interfaz que gestiona eventos, no es obligatorio pero en este caso el componente contendrá el botón que cierra la aplicación por lo que sera necesaria la implementación:
+Como se menciono en la sesión anterior, la clase **Component** puede implementar de alguna interfaz que gestiona eventos de ser necesario, en este caso el componente **barraTitulo** contendrá varios botones para realizar acciones como minimizar o cerrar la aplicación por lo que será necesaria la implementación:
 
 **implementación de interfaz**
 ```javascript
@@ -124,7 +149,7 @@ public void actionPerformed(ActionEvent e) {
 }
 ```
 
-Creamos ahora un atributo de tipo de la clase **Template** y lo ejemplificamos enviándole como argumento una referencia a si misma con la palabra clave **this** para realizar la inyección:
+Se crea el atributo que hace referencia a la clase **Template** y se ejemplifica enviándose como argumento una referencia a si misma con la palabra clave **this** para realizar la inyección de dependencias:
 
 **Declaración**
 ```javascript
@@ -133,41 +158,42 @@ private BarraTituloTemplate barraTituloTemplate;
 
 **Ejemplificación**
 ```javascript
-this.barraTituloTemplate = new BarraTituloTemplate(this); //dentro del constructor
+// Dentro del constructor
+this.barraTituloTemplate = new BarraTituloTemplate(this); 
 ```
-Se debe añadir un método **get** de su único atributo, en este caso de **barraTituloTemplate** para que otros componentes puedan acceder a la clase gráfica del componente como explicamos con anterioridad.
+Se debe añadir un método **get** de su único atributo **barraTituloTemplate**, para que otros componentes puedan acceder a la clase gráfica del componente como se explico con anterioridad.
 
 ```javascript
 public BarraTituloTemplate getBarraTituloTemplate() {
-    return this.barraTituloTemplate;
+  return this.barraTituloTemplate;
 }
 ```
 
-Ahora vamos con la clase **BarraTituloTemplate** esta al tener propiedades gráficas va heredar de un **JPanel**:
+Ahora se codifica a la clase **BarraTituloTemplate**, esta al tener propiedades gráficas va heredar de un **JPanel**:
 ```javascript
 public class BarraTituloTemplate extends JPanel{
 }
 ```
-Como recordamos esta recibe por parámetro dentro del constructor a la clase **Component** para igualarla con un atributo global de la clase, ademas obtendrá los servicios de **ObjGraficosService** y **RecursosService**:
 
-**Declaración**
+Recibe por parámetro dentro del constructor a la clase **Component** para igualarla con un atributo global de la misma referencia para cerrar la inyección, ademas obtendrá los servicios de **ObjGraficosService** y **RecursosService**:
+
+**Declaración:**
 ```javascript
 private BarraTituloComponent barraTituloComponent;
 private ObjGraficosService sObjGraficos;
 private RecursosService sRecursos;
 ```
 
-**Recibimiento de servicios y clase Component**
+**Obtención de servicios y recibimiento de la clase Component:**
 ```javascript
 public BarraTituloTemplate(BarraTituloComponent barraTituloComponent){
-
-    this.barraTituloComponent = barraTituloComponent;
-    this.sObjGraficos= ObjGraficosService.getService();
-    this.sRecursos = RecursosService.getService();
+  this.barraTituloComponent = barraTituloComponent;
+  this.sObjGraficos= ObjGraficosService.getService();
+  this.sRecursos = RecursosService.getService();
 }
 ```
 
-Como esta clase hereda de un **JPanel** es necesario darle propiedades gráficas asi que se realizan varias configuraciones:
+Como la clase hereda de un **JPanel** es necesario darle propiedades gráficas asi que se realizan varias configuraciones:
 ```javascript
 // Dentro del constructor al final
 this.setSize(850, 50);
@@ -176,78 +202,110 @@ this.setLayout(null);
 this.setVisible(true);
 ```
 
-Note que el tamaño del panel de esta clase **Template** debe ser exactamente igual que el panel en la **VistaPrincipal** que reemplazara, en este caso va a suplir al panel **pBarra**:
+Note que el tamaño del panel de esta clase **Template** debe ser exactamente igual que el panel en la **VistaPrincipal** al que se incorporará, en este caso a el panel **pBarra**:
 
 <div align='center'>
     <img  src='https://i.imgur.com/MuDDTDA.png'>
-    <p>Mismo tamaño de componente con Panel que reemplazara</p>
+    <p>Mismo tamaño de componente con Panel al que se incorporará</p>
 </div>
 
-Vamos a agregar 3 objetos gráficos principales, un **Logo**, un **titulo** y un **botón de cerrar**, por lo que realizamos esto como lo veníamos haciendo en nuestras clases anteriores:
+Se agregarán en el componente 4 objetos gráficos principales, un **Logo**, un **Título**, un **Botón de minimizar** y un **Botón de cerrar**, también se agregarán algunos objetos decoradores, por lo que se realiza el proceso de creación reflejado en las sesiones anteriores:
 
 **Declaración**
 ```javascript
 //Declaración objetos gráficos
 private JLabel lLogoApp, lTituloApp;
-private JButton bCerrar;
+private JButton bCerrar, bMinimizar;
 
 //Declaración Objetos Decoradores
 private ImageIcon iLogoApp, iDimAux;
 private Font fontTituloBarra;
 ```
-Se puede observar que vamos a utilizar una fuente que solo se utilizara para el titulo de la interfaz asi que se crea dentro de esta clase y no en **RecursosService**
+Se puede observar que se creará una fuente que solo se utilizará para el titulo de la interfaz asi que se crea dentro del componente especifico y no en **RecursosService**
 
 **Método crearObjetosDecoradores:**
-
 ```javascript
 public void crearObjetosDecoradores(){
-    iLogoApp = new ImageIcon("Clase6/resources/img/logo_app.png");
-    fontTituloBarra= new Font("Britannic Bold", Font.PLAIN, 24);
+  iLogoApp = new ImageIcon("Clase6/resources/images/logo_app.png");
+  fontTituloBarra= new Font("Britannic Bold", Font.PLAIN, 24);
 }
 ```
 
 **Método crearJButtons:**
-
 ```javascript
 public void crearJButtons(){
+  // BOTÓN CERRAR ----------------------------------------------------
+  iDimAux = new ImageIcon(
+    sRecursos.getICerrar().getImage()
+      .getScaledInstance(23, 23, Image.SCALE_AREA_AVERAGING)
+  );
+  bCerrar = sObjGraficos.construirJButton(
+    null, 
+    800, 10, 45, 30,
+    sRecursos.getCMano(), 
+    iDimAux, 
+    null, null, null, null, 
+    "c", 
+    false
+  );
+  bCerrar.addActionListener(barraTituloComponent);
+  this.add(bCerrar);
 
-    iDimAux = new ImageIcon(
-        sRecursos.getICerrar().getImage().getScaledInstance(23, 23, Image.SCALE_AREA_AVERAGING)
-    );
-    bCerrar = sObjGraficos.construirJButton(
-        null, 800, 10, 45, 30, sRecursos.getCMano(), iDimAux, null, 
-        null, null, null, "c", false
-    );
-    bCerrar.addActionListener(barraTituloComponent);
-    this.add(bCerrar);
+  // BOTÓN MINIMIZAR ----------------------------------------------------
+  iDimAux = new ImageIcon(
+    sRecursos.getIMinimizar().getImage()
+      .getScaledInstance(28, 28, Image.SCALE_AREA_AVERAGING)
+  );
+  bMinimizar = sObjGraficos.construirJButton(
+    null,
+    750, 10, 45, 30,
+    sRecursos.getCMano(),
+    iDimAux,
+    null, null, null, null,
+    "c",
+    false
+  );
+  bMinimizar.addActionListener(barraTituloComponent);
+  this.add(bMinimizar);
 }
 ```
-Como el botón cerrar va a utilizar la misma imagen usada en el login se llama al servicio **RecursosService** para obtener dicha imagen compartida. También se observa que se agrego de una vez la propiedad **addActionListener**.
+Como el botón cerrar va a utilizar la misma imagen usada en el login se llama al servicio **RecursosService** para obtener dicha imagen compartida. También se observa que se agrego de una vez la propiedad **addActionListener** en ambos botones.
 
 **Método crearJLabels:**
 ```javascript
 public void crearJLabels(){
+  // LABEL LOGO APP--------------------------------------------------------------------
+  iDimAux = new ImageIcon(
+    iLogoApp.getImage()
+      .getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)
+  );
+  lLogoApp = sObjGraficos.construirJLabel(
+    null,
+    20, 0, 50, 50,
+    null,
+    iDimAux,
+    null, null, null, null,
+    "c"
+  );
+  this.add(lLogoApp);
 
-    // LABEL LOGO APP--------------------------------------------------------------------
-    iDimAux = new ImageIcon(
-        iLogoApp.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)
-    );
-    lLogoApp = sObjGraficos.construirJLabel(
-        null, 20, 0, 50, 50, iDimAux, null, null, null, "c"
-    );
-    this.add(lLogoApp);
-
-    // LABEL TITULO APP--------------------------------------------------------------------
-    lTituloApp = sObjGraficos.construirJLabel(
-        "ProductList", 40, 5, 200, 40, null, sRecursos.getColorAzul(), null, fontTituloBarra, "c"
-    );
-    this.add(lTituloApp);
+  // LABEL TITULO APP--------------------------------------------------------------------
+  lTituloApp = sObjGraficos.construirJLabel(
+    "ProductList",
+    40, 5, 200, 40,
+    null, null,
+    fontTituloBarra,
+    null,
+    sRecursos.getColorAzul(),
+    null,
+    "c"
+  );
+  this.add(lTituloApp);
 }
 ```
-Note que en el label **lTituloApp** se esta usando la fuente exclusiva de esta clase.
+Note que en el label **lTituloApp** se esta usando la fuente exclusiva de este componente gráfico.
 
-**llamada de métodos de creación desde el constructor:**
-
+**Llamada de métodos de creación desde el constructor:**
 ```javascript
 //Dentro del constructor después de obtener servicios 
 this.crearObjetosDecoradores();
@@ -255,17 +313,77 @@ this.crearJLabels();
 this.crearJButtons();
 ```
 
-Nuestra clase **Template** del componente **barraTitulo** esta lista, para nuestra clase **Component** solo falta añadir un detalle y es la configuración del evento. En este caso sera el de salir de la aplicación que ya lo vimos en la clase anterior:
+Por ultimo se crean métodos **get** para los botones para puedan ser manipulados desde la clase **Component**:
 ```javascript
-System.exit(0); //dentro del método implementado actionPerformed
-```
-Note que como en este componente solo existe un botón no es necesario realizar discriminación de acción de ningún tipo.
+public JButton getBCerrar() { return bCerrar; }
 
-Nuestro Componente esta totalmente listo, pero falta incorporarlo a nuestra ventana principal:
+public JButton getBMinimizar() { return bMinimizar; }
+```
+
+La clase **Template** del componente **barraTitulo** esta lista. Por otro lado para la clase **Component** solo falta añadir la configuración de los eventos de acción. En este caso serán el de minimizar y salir de la aplicación, primero se procede a crear una discriminación por objetos:
+```javascript
+@Override
+public void actionPerformed(ActionEvent e) {
+  if (e.getSource() == barraTituloTemplate.getBMinimizar())
+    // Acción para minimizar
+  if (e.getSource() == barraTituloTemplate.getBCerrar())
+    // Acción para Cerrar
+}
+```
+Note que aunque el componente **barraTitulo** contiene los botones que realizan estas acciones, el componente que se debe encargar realmente de cerrar o minimizar la ventana debe ser **vistaPrincipal**. Así que se crean los métodos encargados de realizar estas acciones dentro de la clase **VistaPrincipalComponent**:
+```javascript
+// Dentro de la clase VistaPrincipalComponent
+public void cerrar() {
+    System.exit(0);
+  }
+
+public void minimizar() {
+  this.vistaPrincipalTemplate.setExtendedState(Frame.ICONIFIED);
+}
+```
+
+El anterior código para minimizar la ventana se debe llamar a la clase de la ventana **VistaPrincipalTemplate** y se usa el método:
+
+* **setExtendedState:** Que recibe como parámetro un estado de la clase Frame y que cambia la perspectiva de la ventana haciendo posible acciónes como minimizar, expandir etc. El Argumento **Frame.ICONIFIED** le indica a la ventana que se minimize.
+
+Es necesario para llamar a este estado importar la librería del Frame dentro de la clase VistaPrincipalComponent:
+```javascript
+import java.awt.Frame;
+```
+
+Ahora se debe llamar a los métodos correspondientes de la vista principal dentro del componente **barraTitulo**, sin embargo es necesario obtener una referencia del componente **vistaPrincipal**, así que se recibirá por parámetro un objeto que haga referencia a la clase component y luego se utilizará:
+* **Declaración:**
+```javascript
+private VistaPrincipalComponent vistaPrincipalComponent;
+```
+
+* **Obtención de referencia por inyección**
+```javascript
+public BarraTituloComponent(VistaPrincipalComponent vistaPrincipalComponent) {
+  this.vistaPrincipalComponent = vistaPrincipalComponent;
+  ...
+  ...
+}
+```
+
+* **Uso de objeto recibido para llamar a los métodos:**
+```javascript
+@Override
+public void actionPerformed(ActionEvent e) {
+  if (e.getSource() == barraTituloTemplate.getBMinimizar())
+    vistaPrincipalComponent.minimizar();
+  if (e.getSource() == barraTituloTemplate.getBCerrar())
+    vistaPrincipalComponent.cerrar();
+}
+```
+
+En este caso se esta recibiendo una referencia del componente padre **VistaPrincipal** por el constructor creando así una inyección de dependencia y esto crea a su vez una comunicación bidireccional entre ambos componentes, Ahora el componente padre **VistaPrincipal** puede enviar peticiones a **barraTitulo** y viceversa. Esta comunicación entre componentes solo se debe realizar en caso de ser necesario, por lo general solamente existe una comunicación unidireccional donde el componente padre realiza peticiones al hijo nada mas.
+
+El Componente esta totalmente listo, sin embargo, falta incorporarlo a la ventana principal:
 
 ### **Incorporación de componente en la Single-Page app**
 
-Nos vamos a ubicar en nuestra clase **VistaPrincipalComponent**, allí vamos a declarar un objeto de nuestro componente **barraTitulo** y como se explico en la clase anterior debe hacerse el llamando exclusivamente a la clase **Component**:
+En la clase **VistaPrincipalComponent** se va a declarar un objeto del componente **barraTitulo** y como se explico en la sesión anterior, debe hacerse el llamando exclusivamente a la clase **Component**:
 
 **Declaración:**
 ```javascript
@@ -275,28 +393,30 @@ private BarraTituloComponent barraTituloComponent;
 **Ejemplificación:**
 ```javascript
 //Dentro del constructor
-this.barraTituloComponent = new BarraTituloComponent();
+this.barraTituloComponent = new BarraTituloComponent(this);
 ```
 
-Ahora viene la parte **más importante** que es la incorporación del componente a la ventana, como queremos que al abrir la ventana este componente ya este incorporado realizaremos el siguiente proceso dentro del constructor:
-* Primero debemos obtener el panel que sera reemplazado en este caso **pBarra** y llamaremos entonces al método **get** correspondiente de la clase **VistaPrincipalTemplate**:
+Note que dentro de la ejemplificación se enviá una referencia asi misma con la palabra clave **this** para terminar la inyección de dependencias.
+
+Ahora se realiza la parte **más importante** que es la incorporación del componente a la ventana, como se quiere que al abrir la ventana este componente ya este incorporado se realiza el siguiente proceso dentro del constructor:
+* Primero se obtiene el panel que incorporará al componente, en este caso **pBarra** y para esto se llama al método **get** correspondiente de la clase **VistaPrincipalTemplate**:
 ```javascript
 //Dentro del constructor
 vistaPrincipalTemplate.getPBarra();
 ```
 
-* Una vez obtenemos el panel a remplazar le debemos indicar al panel que vamos a agregar un componente gráfico, para eso llamamos a su método de configuración **add**:
+* Una vez obtenido el panel, se le indica al panel que se agregará un objeto, para eso se llama a su método de configuración **add**:
 ```javascript
 //Dentro del constructor
 vistaPrincipalTemplate.getPBarra().add();
 ```
 
-* Debemos especificarle que vamos a incorporar, entonces dentro de los paréntesis llamamos a la clase **Component** que antes hemos ejemplificado:
+* Se debe especificar que se va a incorporar, entonces dentro de los paréntesis se llama a la clase **Component** que antes se ha ejemplificado:
 ```javascript
 //Dentro del constructor
 vistaPrincipalTemplate.getPBarra().add(barraTituloComponent);
 ```
-* Sin embargo la clase **BarraTituloComponent** no cuenta con propiedades gráficas, es la clase **BarraTituloTemplate** la que si las tiene ya que hereda de un **JPanel**, es por eso que el editor muestra un error con el código anterior. Sin embargo si recordamos nuestra clase **BarraTituloComponent** tiene un método **get** que nos devuelve esta clase **Template**, asi que la invocaremos:
+* Sin embargo la clase **BarraTituloComponent** no cuenta con propiedades gráficas, es la clase **BarraTituloTemplate** la que si las tiene ya que hereda de un **JPanel**, es por eso que el editor muestra un error con el código anterior. Sin embargo, la clase **BarraTituloComponent** tiene un método **get** que devuelve la clase **Template**, asi que se invoca:
 ```javascript
 //Dentro del constructor
 vistaPrincipalTemplate.getPBarra().add(
@@ -305,24 +425,24 @@ vistaPrincipalTemplate.getPBarra().add(
 ```
 Por cuestiones de espacio horizontal se acomoda la linea de código.
 
-Si corremos nuestra aplicación y abrimos nuestra ventana principal notamos que se ha incorporado exitosamente su primer componente gráfico:
+Si se ejecuta la aplicación y abrimos la ventana principal se observa que se ha incorporado exitosamente su primer componente gráfico:
 <div align='center'>
-    <img  src='https://i.imgur.com/Wy9Rx6w.png'>
+    <img  src='https://i.imgur.com/61cHTHl.png'>
     <p>Vista principal con su primer componente agregado</p>
 </div>
 
-Incluso al darle click al botón de cerrar este funcionara de forma adecuada.
+Incluso al darle click al botón de cerrar o al botón minimizar estos funcionarán de forma adecuada.
 
-## Creación e incorporación Componente Navegación Usuario
+## Creación e incorporación del Componente Navegación Usuario
 
-Vamos a repetir el mismo proceso para nuestro componente gráfico **navegacionUsuario**  este componente es el encargado de mostrar en pantalla los botones con los que el usuario podrá navegar dentro de la aplicación. Creamos a continuación su paquete dentro del paquete **components** con sus respectivas clases:
+Se va a repetir el mismo proceso para el componente gráfico **navegacionUsuario**  este componente es el encargado de mostrar en pantalla los botones con los que el usuario podrá navegar dentro de la aplicación. Se crea a continuación su paquete con sus respectivas clases dentro del paquete **components**:
 
 <div align='center'>
     <img  src='https://i.imgur.com/Afy9X3H.png'>
-    <p>Creación de componente navegacionUsuario</p>
+    <p>Creación del componente gráfico navegacionUsuario</p>
 </div>
 
-Empezamos con la clase **Component** como el componente tendrá botones vamos a necesitar la implementación de la interfaz **ActionListener** y su método:
+Se empieza con la clase **Component**, como el componente contendrá botones, es necesaria la implementación de la interfaz **ActionListener** y su método:
 ```javascript
 public class NavegacionUsuarioComponent implements ActionListener {
 
@@ -332,7 +452,7 @@ public class NavegacionUsuarioComponent implements ActionListener {
 }
 ```
 
-Creamos ahora un atributo de tipo de la clase **Template** y lo ejemplificamos enviándole como argumento a si mismo con la palabra clave **this** para realizar la inyección:
+Se crea el atributo que referencia a la clase **Template** y se ejemplifica enviándose como argumento a si mismo con la palabra clave **this** para realizar la inyección:
 
 **Declaración**
 ```javascript
@@ -341,18 +461,18 @@ private NavegacionUsuarioTemplate navegacionUsuarioTemplate;
 
 **Ejemplificación**
 ```javascript
-this.navegacionUsuarioTemplate =  new NavegacionUsuarioTemplate(this); //dentro del constructor
+//dentro del constructor
+this.navegacionUsuarioTemplate =  new NavegacionUsuarioTemplate(this); 
 ```
 
 Se debe generar también el método **get** de su clase **Template** correspondiente:
-
 ```javascript
 public NavegacionUsuarioTemplate getNavegacionUsuarioTemplate() {
     return this.navegacionUsuarioTemplate;
 }
 ```
 
-Ahora en nuestra clase **NavegacionUsuarioTemplate** esta debe heredar igualmente de un **JPanel**:
+Ahora en la clase **NavegacionUsuarioTemplate** esta debe heredar de un **JPanel**:
 
 ```javascript
 public class NavegacionUsuarioTemplate extends JPanel{
@@ -368,7 +488,7 @@ private ObjGraficosService sObjGraficos;
 private RecursosService sRecursos;
 ```
 
-**Obtención de servicios y objeto de clase Component**
+**Obtención de servicios y recibimiento del objeto de clase Component**
 ```javascript
 public NavegacionUsuarioTemplate(NavegacionUsuarioComponent navegacionUsuarioComponent){
     this.navegacionUsuarioComponent = navegacionUsuarioComponent;
@@ -377,7 +497,7 @@ public NavegacionUsuarioTemplate(NavegacionUsuarioComponent navegacionUsuarioCom
 }
 ```
 
-Se dan las propiedades gráficas al componente gráfico y se debe prestar atención al tamaño ya que debe ser el mismo al panel en la ventana principal que va a reemplazar, en este caso sustituye al panel **pNavegacion**:
+Se dan las propiedades gráficas al componente gráfico y se debe prestar atención al tamaño ya que debe ser el mismo al panel en la ventana principal que lo va a incorporar, en este caso el panel **pNavegacion**:
 ```javascript
 // Dentro del constructor
 this.setSize(250, 700);
@@ -389,8 +509,8 @@ Este componente va a contener los siguientes objetos gráficos:
 
 * Panel que muestra información del usuario:
     * Label con un icono de usuario.
-    * Label con el nombre de un usuario.
-    * Label con fotografiá de un usuario.
+    * Label con el nombre del usuario.
+    * Label con fotografiá del usuario.
     * Label con un pequeño eslogan.
 * Panel que contiene los botones de navegación:
     * Botones de navegación (serán 6 en total)
@@ -405,151 +525,229 @@ private JButton bInicio, bPerfil, bAmigos, bProductos, bConfiguracion, bCerrarSe
 //Declaración Objetos Decoradores
 private ImageIcon iIconoUsuario, iInicio, iPerfil, iAmigos, iProductos, 
 iConfiguracion, iCerrarSesion, iImagenUsuario, iDimAux;
+private Border bVacio;
 ```
 
 **Método construirJPanels:**
-
 ```javascript
 public void crearJPanels(){
+  this.pSuperior = sObjGraficos.construirJPanel(
+    0, 0, 250, 300, 
+    sRecursos.getColorAzul(), 
+    null
+  );
+  this.add(pSuperior);
 
-    this.pSuperior = sObjGraficos.construirJPanel(
-        0, 0, 250, 300, sRecursos.getColorAzul(), null
-    );
-    this.add(pSuperior);
-
-    this.pInferior = sObjGraficos.construirJPanel(
-        0, 300, 250, 400, sRecursos.getColorAzul(), null
-    );
-    this.add(pInferior);
+  this.pInferior = sObjGraficos.construirJPanel(
+    0, 300, 250, 400, 
+    sRecursos.getColorAzul(), 
+    null
+  );
+  this.add(pInferior);
 }
 ```
 
 **Método crearObjetosDecoradores:**
-
 ```javascript
 public void crearObjetosDecoradores(){
-
-    this.iIconoUsuario = new ImageIcon("Clase6/resources/img/usuario_navegacion.png");
-    this.iInicio = new ImageIcon("Clase6/resources/img/inicio.png");
-    this.iPerfil = new ImageIcon("Clase6/resources/img/perfil.png");
-    this.iAmigos = new ImageIcon("Clase6/resources/img/amigos.png");
-    this.iProductos = new ImageIcon("Clase6/resources/img/productos.png");
-    this.iConfiguracion = new ImageIcon("Clase6/resources/img/configuracion.png");
-    this.iCerrarSesion = new ImageIcon("Clase6/resources/img/salir.png");
-    this.iImagenUsuario = new ImageIcon("Clase6/resources/img/perfiles/perfil1.png");
+    this.iIconoUsuario = new ImageIcon("Clase6/resources/images/usuario_navegacion.png");
+    this.iInicio = new ImageIcon("Clase6/resources/images/inicio.png");
+    this.iPerfil = new ImageIcon("Clase6/resources/images/perfil.png");
+    this.iAmigos = new ImageIcon("Clase6/resources/images/amigos.png");
+    this.iProductos = new ImageIcon("Clase6/resources/images/productos.png");
+    this.iConfiguracion = new ImageIcon("Clase6/resources/images/configuracion.png");
+    this.iCerrarSesion = new ImageIcon("Clase6/resources/images/salir.png");
+    this.iImagenUsuario = new ImageIcon("Clase6/resources/images/perfiles/perfil1.png");
+    this.bVacio = new EmptyBorder(2, 20, 2, 2);
 }
 ```
+Se puede observar que se crea un borde vació, este borde será utilizado para crear un espació interno o Padding entre el borde de los botones y el contenido de los mismos.
 
 **Método crearJLabels:**
 ```javascript
 public void crearJLabels(){
+  // LABEL ICONO USUARIO--------------------------------------------------------------------
+  iDimAux = new ImageIcon(
+    iIconoUsuario.getImage()
+      .getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING)
+  );
+  this.lIconoUsuario = sObjGraficos.construirJLabel(
+    null,
+    10, 20, 40, 40,
+    null,
+    iDimAux,
+    null, null, null, null,
+    "c"
+  );
+  this.pSuperior.add(lIconoUsuario);
 
-    // LABEL ICONO USUARIO--------------------------------------------------------------------
-    iDimAux = new ImageIcon(
-        iIconoUsuario.getImage().getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING)
-    );
-    this.lIconoUsuario = sObjGraficos.construirJLabel(
-        null, 10, 20, 40, 40, iDimAux, null, null, null, "c"
-    );
-    this.pSuperior.add(lIconoUsuario);
+  // LABEL NOMBRE USUARIO--------------------------------------------------------------------
+  this.lNombreUsuario = sObjGraficos.construirJLabel(
+    "Nombre de Usuario", 
+    ((this.pSuperior.getWidth() - 200) / 2) + 10, 20, 200, 40,
+    null, null, 
+    sRecursos.getFontTitulo(), 
+    null,
+    Color.WHITE,
+    null,
+    "c"
+  );
+  this.pSuperior.add(lNombreUsuario);
 
-    // LABEL NOMBRE USUARIO--------------------------------------------------------------------
-    this.lNombreUsuario = sObjGraficos.construirJLabel(
-        "Nombre de Usuario", 40, 20, 200, 40, null, Color.WHITE, null, sRecursos.getFontTitulo(), "c"
-    );
-    this.pSuperior.add(lNombreUsuario);
+  // LABEL IMAGEN USUARIO--------------------------------------------------------------------
+  iDimAux = new ImageIcon(
+    iImagenUsuario.getImage()
+      .getScaledInstance(180, 180, Image.SCALE_AREA_AVERAGING)
+  );
+  this.lImagenUsuario = sObjGraficos.construirJLabel(
+    null, 
+    (this.pSuperior.getWidth() - 180) / 2, 75, 180, 180,
+    null,
+    iDimAux, 
+    null, null, null, null,
+    "c"
+  );
+  this.pSuperior.add(lImagenUsuario);
 
-    // LABEL IMAGEN USUARIO--------------------------------------------------------------------
-    iDimAux = new ImageIcon(
-        iImagenUsuario.getImage().getScaledInstance(180, 180, Image.SCALE_AREA_AVERAGING)
-    );
-    this.lImagenUsuario = sObjGraficos.construirJLabel(
-        null, (this.pSuperior.getWidth()-180)/2, 75, 180, 180, iDimAux, null, null, null, "c"
-    );
-    this.pSuperior.add(lImagenUsuario);
-
-    // LABEL ESLOGAN--------------------------------------------------------------------
-    this.lEslogan = sObjGraficos.construirJLabel(
-        "<html><div align='center'> Nuestros clientes son <br/>lo mas importante</div></html>",  
-        (this.pSuperior.getWidth()-180)/2, 265, 180, 40, null, Color.WHITE, null, sRecursos.getFontPequeña(), "c"
-    );
-    this.pSuperior.add(lEslogan);
+  // LABEL ESLOGAN--------------------------------------------------------------------
+  this.lEslogan = sObjGraficos.construirJLabel(
+    "<html><div align='center'> Nuestros clientes son <br/>lo mas importante</div></html>",
+    (this.pSuperior.getWidth() - 180) / 2, 265, 180, 40, 
+    null, null, 
+    sRecursos.getFontLigera(), 
+    null, 
+    Color.WHITE, 
+    null,
+    "c");
+  this.pSuperior.add(lEslogan);
 }
 ```
 
-Noten que en el label **lEslogan** hay algo diferente, y es que cuando enviamos un texto estamos enviando unas etiquetas **HTML** esto es debido a que no podemos dar saltos de linea dentro de un label de forma normal, es decir si escribimos **\n** no va a funcionar, es por eso que hacemos uso de etiquetas html para poder dar saltos de linea a nuestro texto y ademas brindar de varias otras características como: 
+Note que en el label **lEslogan** hay algo diferente, y es que el texto se ha escrito dentro de etiquetas **HTML**. Esto es debido a que java no permite dar saltos de linea dentro de un label, es decir que si se escribe **\n** que representa un salto de linea en consola no va a funcionar para los Labels, es por eso que se usan etiquetas HTML para poder dar saltos de linea al texto y ademas brindar de varias otras características como: 
 * **`<html>`** indica que se va a iniciar un formato html y se debe cerrar al final con **`</html>`**.
-* **`<div align='center'>`** Le da a nuestro texto propiedad de centrado, la etiqueta **div** debe tener una etiqueta de cerrado **`</div>`**.
-* **`<div align='justify'>`** Le da a nuestro texto propiedad de texto justificado, la etiqueta **div** debe tener una etiqueta de cerrado **`</div>`**.
-* **`<br/>`** indica un salto de linea, esto es solo cuando queremos dar un salto de linea en una parte en especifico, si no ponemos esta etiqueta de todos modos el html realiza el salto de linea automático una vez ocupa todo el espacio de ancho.
+* **`<div align='center'>`** Le da al texto propiedad de centrado, la etiqueta **div** debe tener una etiqueta de cerrado **`</div>`**.
+* **`<div align='justify'>`** Le da al texto propiedad de texto justificado, la etiqueta **div** debe tener una etiqueta de cerrado **`</div>`**.
+* **`<br/>`** indica un salto de linea, esto es solo cuando se quiere dar un salto de linea explicito, si no se coloca esta etiqueta de todos modos el html realiza el salto de linea automático una vez ocupa todo el espacio de ancho.
 
 **Método crear JButtons**
-
 ```javascript
 public void crearJButtons(){
-
-    // BOTÓN INICIO--------------------------------------------------------------------
+  // BOTÓN INICIO--------------------------------------------------------------------
     iDimAux = new ImageIcon(
-        iInicio.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
+      iInicio.getImage()
+        .getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
     );
     this.bInicio = sObjGraficos.construirJButton(
-        "      Inicio", 30, 30, 200, 40, sRecursos.getCMano(), 
-        iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
+      "      Inicio",
+      30, 30, 200, 40,
+      sRecursos.getCMano(),
+      iDimAux,
+      sRecursos.getFontMediana(),
+      null,
+      Color.WHITE,
+      bVacio,
+      "l",
+      false
     );
     this.bInicio.addActionListener(navegacionUsuarioComponent);
     this.pInferior.add(bInicio);
 
     // BOTÓN PERFIL--------------------------------------------------------------------
     iDimAux = new ImageIcon(
-        iPerfil.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
+      iPerfil.getImage()
+        .getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
     );
     this.bPerfil = sObjGraficos.construirJButton(
-        "      Perfil", 30, 80, 200, 40, sRecursos.getCMano(), 
-        iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
+      "      Perfil",
+      30, 80, 200, 40,
+      sRecursos.getCMano(),
+      iDimAux,
+      sRecursos.getFontMediana(),
+      null,
+      Color.WHITE,
+      bVacio,
+      "l",
+      false
     );
     this.bPerfil.addActionListener(navegacionUsuarioComponent);
     this.pInferior.add(bPerfil);
 
     // BOTÓN AMIGOS--------------------------------------------------------------------
     iDimAux = new ImageIcon(
-        iAmigos.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
+      iAmigos.getImage()
+        .getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
     );
     this.bAmigos = sObjGraficos.construirJButton(
-        "      Amigos", 30, 130, 200, 40, sRecursos.getCMano(), 
-        iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
+      "      Amigos",
+      30, 130, 200, 40,
+      sRecursos.getCMano(),
+      iDimAux,
+      sRecursos.getFontMediana(),
+      null,
+      Color.WHITE,
+      bVacio,
+      "l",
+      false
     );
     this.bAmigos.addActionListener(navegacionUsuarioComponent);
     this.pInferior.add(bAmigos);
 
     // BOTÓN PRODUCTOS--------------------------------------------------------------------
     iDimAux = new ImageIcon(
-        iProductos.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
+      iProductos.getImage()
+        .getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
     );
     this.bProductos = sObjGraficos.construirJButton(
-        "      Productos", 30, 180, 200, 40, sRecursos.getCMano(), 
-        iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
+      "      Productos",
+      30, 180, 200, 40,
+      sRecursos.getCMano(),
+      iDimAux,
+      sRecursos.getFontMediana(),
+      null,
+      Color.WHITE,
+      bVacio,
+      "l",
+      false
     );
     this.bProductos.addActionListener(navegacionUsuarioComponent);
     this.pInferior.add(bProductos);
 
     // BOTÓN CONFIGURACIÓN--------------------------------------------------------------------
     iDimAux = new ImageIcon(
-        iConfiguracion.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
+      iConfiguracion.getImage()
+        .getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
     );
     this.bConfiguracion = sObjGraficos.construirJButton(
-        "      Configuraciones", 30, 230, 200, 40, sRecursos.getCMano(), 
-        iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
+      "      Configuraciones",
+      30, 230, 200, 40,
+      sRecursos.getCMano(),
+      iDimAux,
+      sRecursos.getFontMediana(),
+      null,
+      Color.WHITE,
+      bVacio,
+      "l",
+      false
     );
     this.bConfiguracion.addActionListener(navegacionUsuarioComponent);
     this.pInferior.add(bConfiguracion);
 
     // BOTÓN CERRAR SESIÓN--------------------------------------------------------------------
     iDimAux = new ImageIcon(
-        iCerrarSesion.getImage().getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
+      iCerrarSesion.getImage()
+        .getScaledInstance(20, 20, Image.SCALE_AREA_AVERAGING)
     );
     this.bCerrarSesion = sObjGraficos.construirJButton(
-        "      Cerrar Sesión", 30, 280, 200, 40, sRecursos.getCMano(), 
-        iDimAux, sRecursos.getFontBotones(), null, Color.WHITE, null, "l", false
+      "      Cerrar Sesión",
+      30, 280, 200, 40,
+      sRecursos.getCMano(),
+      iDimAux,
+      sRecursos.getFontMediana(),
+      null,
+      Color.WHITE,
+      bVacio,
+      "l",
+      false
     );
     this.bCerrarSesion.addActionListener(navegacionUsuarioComponent);
     this.pInferior.add(bCerrarSesion);
@@ -557,17 +755,18 @@ public void crearJButtons(){
 ```
 
 Estos botones tienen unas características peculiares:
-* Todos cuentan con una imagen y ademas un texto, esto es posible y nuestro servicio **ObjGraficosService** esta configurado para estos casos.
+* Todos cuentan con una imagen y ademas un texto, esto es posible y el servicio **ObjGraficosService** esta configurado para estos casos.
 * Para que exista una separación visible entre el icono y el texto, este ultimo empieza con unos espacios de la forma:
 <div align='center'>
     <img  src='https://i.imgur.com/4NoFZpj.png'>
     <p>Separación de texto con icono dentro del botón</p>
 </div>
 
-* El botón esta vez cuenta con una dirección hacia la izquierda por lo que se envía como argumento **"l"** para el parámetro **dirección**.
+* El botón esta vez cuenta con una dirección hacia la izquierda para que la imágen este antes que el texto, por lo que se envía como argumento **"l"** para el parámetro **dirección**.
+* Cuenta con un padding para que exista una separación entre el borde y el contenido, por lo que se utiliza el borde **bVacio**, esto no se verá reflejado aun ya que el botón no cuenta con fondo, pero en futuras sesiones cuando se hable de eventos del Mouse se resaltará la importancia del uso de este borde.
 * No tienen fondo por lo que se envía como argumento un **false** para el parámetro **esSolido**.
 
-**llamada de métodos de creación desde el constructor:**
+**Llamada de métodos de creación desde el constructor:**
 ```javascript
 //Dentro del constructor después de obtener servicios 
 this.crearObjetosDecoradores();
@@ -576,11 +775,11 @@ this.crearJLabels();
 this.crearJButtons();
 ```
 
-Nuestro componente gráfico esta casi listo solo falta realizar la configuración de los eventos de acción pero esto se discutirá en la siguiente sección **Enrutamiento y gestión de visibilidad de componentes gráficos**. Por el momento vamos a incorporarlo en la vista principal.
+El componente gráfico esta casi listo solo falta realizar la configuración de los eventos de acción pero esto se discutirá en la siguiente sección **Navegación y gestión de visibilidad de componentes gráficos**. Por el momento se va a incorporar en la vista principal.
 
 ### **Incorporación de componente en la Single-Page app**
 
-Nos vamos a ubicar nuevamente en nuestra clase **VistaPrincipalComponent**, allí vamos a declarar un objeto de nuestro componente **navegacionUsuario** y como se explico en la clase anterior debe hacerse el llamando exclusivamente a la clase **Component**.
+Nuevamente en la clase **VistaPrincipalComponent** se declara un objeto del componente **navegacionUsuario** y como se explico en la sesión anterior, debe hacerse el llamando exclusivamente a la clase **Component**.
 
 **Declaración:**
 ```javascript
@@ -593,7 +792,7 @@ private NavegacionUsuarioComponent navegacionUsuarioComponent;
 this.navegacionUsuarioComponent = new NavegacionUsuarioComponent();
 ```
 
-La incorporación la vamos a realizar de la misma manera que explicamos con el anterior componente gráfico, esta vez vamos a reemplazar el panel **pNavegacion**:
+La incorporación se realiza de la misma manera que se explicó con el anterior componente gráfico, esta vez será incorporado sobre el panel **pNavegacion**:
 ```javascript
 //Dentro del constructor
 vistaPrincipalTemplate.getPNavegacion().add(
@@ -601,17 +800,17 @@ vistaPrincipalTemplate.getPNavegacion().add(
 );
 ```
 
-Si corremos nuestra aplicación y abrimos nuestra ventana principal notamos que se ha incorporado exitosamente el segundo componente:
+Si se corre la aplicación y se abre la ventana principal se observa que se ha incorporado exitosamente el segundo componente:
 <div align='center'>
-    <img  src='https://i.imgur.com/aDdzXnT.png'>
+    <img  src='https://i.imgur.com/tWwEgbG.png'>
     <p>Vista principal con el componente Navegación usuario agregado</p>
 </div>
 
 Sin embargo al dar click sobre cualquiera de los botónes, estos no hacen nada aun, esto se discutirá en la siguiente sección.
 
-# Enrutamiento y gestión de visibilidad de componentes gráficos.
+# Navegación y gestión de visibilidad de componentes gráficos.
 
-Ya tenemos nuestros dos componentes incorporados a la ventana principal, esto nos da una ventaja enorme ya que cada componente tiene su propia responsabilidad y su código sera mucho mas entendible. Lo que queremos hacer ahora es que cuando se oprima cualquiera de los botones del componente **navegacionUsuario** la ventana principal gestionara que componentes se verán dentro del panel **pPrincipal** este proceso se conoce como **enrutamiento** que para paginas web tiene mas sentido ya que esta gestión de visibilidad de componentes se hace mediante rutas en el navegador, sin embargo para introducirnos al proceso se decidió dejar el mismo nombre, al final es el mismo resultado lo que queremos hacer.
+Ya están incorporados los dos componentes a la ventana principal, esto da una ventaja enorme ya que cada componente tiene su propia responsabilidad y su código será mucho más entendible. Lo que se quiere hacer ahora es que cuando se oprima cualquiera de los botones del componente **navegacionUsuario** la ventana principal gestione que componentes se verán dentro del panel **pPrincipal** este proceso se conoce como **navegación** que para paginas web se conoce como **enrutamiento** ya que esta gestión de visibilidad de componentes se hace mediante rutas en el navegador, sin embargo dentro del curso se referirá a este proceso como navegación, al final es el mismo resultado lo que se quiere realizar.
 
 La clase que se debe encargar de gestionar que es visible y que no dentro de la misma es solamente la clase **VistaPrincipalComponent**, se podría pensar que el componente **navegacionUsuario** al tener los botones se debería encargar de esta labor pero es erróneo, es la misma ventana principal la que debe hacer su propia gestión.
 
@@ -652,7 +851,7 @@ public InicioTemplate getInicioTemplate() {
 }
 ```
 
-Ahora en nuestra clase **InicioTemplate**:
+Ahora en la clase **InicioTemplate**:
 * Al igual que con los otros componentes creados en esta clase esta hereda de un **JPanel**:
 ```javascript
 public class InicioTemplate extends JPanel{
@@ -708,13 +907,13 @@ public NavegacionUsuarioComponent(VistaPrincipalComponent vistaPrincipalComponen
     ...
 ```
 
-* Ahora en nuestra clase **VistaPrincipalComponent** nos va a salir un error en la linea en la que ejemplificamos a la clase componente **NavegacionUsuarioComponent** ya que este nos exige el envío de un parámetro por constructor de un objeto de tipo **VistaPrincipalComponent**, simplemente entre los paréntesis colocamos un **this** enviándose a si misma como argumento:
+* Ahora en la clase **VistaPrincipalComponent** nos va a salir un error en la linea en la que ejemplificamos a la clase componente **NavegacionUsuarioComponent** ya que este nos exige el envío de un parámetro por constructor de un objeto de tipo **VistaPrincipalComponent**, simplemente entre los paréntesis colocamos un **this** enviándose a si misma como argumento:
 ```javascript
 this.navegacionUsuarioComponent = new NavegacionUsuarioComponent(this);
 ```
-Ya hemos creado nuestra inyección y con esto hay comunicación bidireccional entre clases.
+Ya hemos creado la inyección y con esto hay comunicación bidireccional entre clases.
 
-Ahora antes de continuar como nuestra clase **VistaPrincipalComponent** se va a encargar del enrutamiento vamos a crear un método llamado   **mostrarComponente** y recibirá por parámetro un String al cual llamaremos **comando**:
+Ahora antes de continuar como la clase **VistaPrincipalComponent** se va a encargar del enrutamiento vamos a crear un método llamado   **mostrarComponente** y recibirá por parámetro un String al cual llamaremos **comando**:
 
 ```javascript
 public void mostrarComponente(String comando){
@@ -723,7 +922,7 @@ public void mostrarComponente(String comando){
 
 ## Configurando eventos en componente NavegaciónUsuario
 
-Aprovechando que todos nuestros botones dentro del componente tienen texto, vamos a tomar su comando (texto del botón) para ser enviado a la clase **VistaPrincipalComponent** y asi gestionar el enrutamiento. De esta forma nos evitamos también la creación de los métodos **get** dentro de la clase **NavegacionUsuarioTemplate**.
+Aprovechando que todos los botones dentro del componente tienen texto, vamos a tomar su comando (texto del botón) para ser enviado a la clase **VistaPrincipalComponent** y asi gestionar el enrutamiento. De esta forma nos evitamos también la creación de los métodos **get** dentro de la clase **NavegacionUsuarioTemplate**.
 
 Nos posicionamos en la clase **NavegacionUsuarioComponent** y dentro del método implementado vamos a enviar el comando del botón a la vista principal:
 
@@ -747,7 +946,7 @@ public void actionPerformed(ActionEvent e) {
     this.vistaPrincipalComponent.mostrarComponente(e.getActionCommand());
 }
 ```
-Cuando ejecutemos nuestro programa y oprimamos cualquier botón del componente **navegacionUsuario** y vemos la consola podemos notar lo siguiente:
+Cuando ejecutemos el programa y oprimamos cualquier botón del componente **navegacionUsuario** y vemos la consola podemos notar lo siguiente:
 
 <div align='center'>
     <img  src='https://i.imgur.com/noESoYT.png'>
@@ -758,7 +957,7 @@ No queremos enviar estos espacios primero por que no tenemos la certeza de cuant
 
 vamos a hacer uso del método **trim** este método:
 * **trim()**: Quita todos los espacios que existan antes y al finalizar un texto dentro de un String.
-Nuestra configuración queda asi:
+la configuración queda asi:
 
 ```javascript
 @Override
@@ -768,7 +967,7 @@ public void actionPerformed(ActionEvent e) {
 }
 ```
 
-Una vez ejecutamos la aplicación y vemos en nuestra consola podemos notar lo siguiente:
+Una vez ejecutamos la aplicación y vemos en la consola podemos notar lo siguiente:
 <div align='center'>
     <img  src='https://i.imgur.com/zIrf2vz.png'>
     <p>Texto de cada botón sin espacios al inicio</p>
@@ -780,7 +979,7 @@ Se puede observar que incluso si existe espacio entre el texto este se conserva 
 
 ## Configuración de Enrutamiento
 
-Ya tenemos casi todo listo para configurar nuestro enrutamiento, ahora nos vamos a posicionar en el método **mostrarComponente** de la clase **VistaPrincipalComponent**.
+Ya tenemos casi todo listo para configurar el enrutamiento, ahora nos vamos a posicionar en el método **mostrarComponente** de la clase **VistaPrincipalComponent**.
 Una vez recibamos el comando del botón desde el componente **navegacionUsuario** podemos llamar a los demás componentes de acuerdo a la petición del usuario. Esto lo realizaremos con un **switch / case** de la siguiente forma:
 
 ```javascript
@@ -839,7 +1038,7 @@ case "Inicio":
 ```
 Se re acomoda el código para no ocupar mucho espacio horizontal.
 
-Esto se realiza con los demás componentes y en teoría estaría listo, sin embargo si ejecutamos nuestra aplicación y oprimimos los botones notaremos que este no realiza ningún cambio aparente.
+Esto se realiza con los demás componentes y en teoría estaría listo, sin embargo si ejecutamos la aplicación y oprimimos los botones notaremos que este no realiza ningún cambio aparente.
 
 **¿Por qué sucede esto?**
 
@@ -868,7 +1067,7 @@ public void mostrarComponente(String comando){
 }
 ```
 
-Si ejecutamos nuestra aplicación y oprimimos los botones de la navegación nos damos cuenta de que ya reemplaza los componentes en el panel principal:
+Si ejecutamos la aplicación y oprimimos los botones de la navegación nos damos cuenta de que ya reemplaza los componentes en el panel principal:
 
 <div align='center'>
     <img  src='https://i.imgur.com/CIHpzzv.png'>
@@ -891,7 +1090,7 @@ Cuando oprimamos el botón **Cerrar sesión** queremos que la vista principal de
 
 El anterior ejemplo funciona, sin embargo debemos recordar que cuando se inicio la aplicación la clase ejecutora **App** ya creo un objeto en memoria del componente **login**, y si realizamos el proceso anterior descrito estaríamos creando otro objeto en memoria nuevo del componente **login** cada vez que cerramos sesión y el objeto que se creo desde **App** quedaria en el *limbo*.
 
-De hecho si echamos un vistazo a nuestra clase **LoginComponent** en su método **Entrar** notamos que cada vez que se entra a la ventana principal crea un nuevo objeto de esta:
+De hecho si echamos un vistazo a la clase **LoginComponent** en su método **Entrar** notamos que cada vez que se entra a la ventana principal crea un nuevo objeto de esta:
 
 <div align='center'>
     <img  src='https://i.imgur.com/LcNe8DZ.png'>
@@ -920,7 +1119,7 @@ public VistaPrincipalComponent(LoginComponent loginComponent){
 }
 ```
 
-La inyección ya esta hecha y ahora tenemos una comunicación bidireccional entre ambos componentes gráficos, sin embargo aun no hemos evitado la creación de muchos objetos del componente **VistaPrincipal** para esto nos ubicamos ahora en nuestra clase **LoginComponent** en el método **entrar** y realizamos el siguiente cambio:
+La inyección ya esta hecha y ahora tenemos una comunicación bidireccional entre ambos componentes gráficos, sin embargo aun no hemos evitado la creación de muchos objetos del componente **VistaPrincipal** para esto nos ubicamos ahora en la clase **LoginComponent** en el método **entrar** y realizamos el siguiente cambio:
 ```javascript
 public void entrar(){
     if(vistaPrincipal == null)
@@ -937,7 +1136,7 @@ En el anterior codigo estamos haciendo lo siguiente:
     * Si este ya se ha ejemplificado previamente (por ejemplo se inicio sesión una vez, se cerro la sesión y se volvió a iniciar) entonces vamos a obtener la clase **VistaPrincipalTemplate** mediante el método **get** y le vamos a indicar que sea Visible nuevamente.
 * Para ambos casos la visibilidad del Login cambiara para que no se vea en pantalla.
 
-Ya hemos arreglado nuestro problema ahora solo nos queda configurar finalmente nuestra opción de cerrar sesión. Nos ubicamos en el método **mostrarComponente** de la clase **VistaPrincipalComponent** en la opción **Cerrar Sesión** y ponemos:
+Ya hemos arreglado el problema ahora solo nos queda configurar finalmente la opción de cerrar sesión. Nos ubicamos en el método **mostrarComponente** de la clase **VistaPrincipalComponent** en la opción **Cerrar Sesión** y ponemos:
 
 ```javascript
 case "Cerrar Sesión":
@@ -980,7 +1179,7 @@ case "Inicio":
     break;
 ```
 
-Podemos notar que este enfoque funciona y tenemos de forma controlada la creación de sus componentes, sin embargo como todos los componentes gráficos se van a cargar desde el constructor esto le va a restar rendimiento a nuestra aplicación, imaginen que algún usuario ingresa solamente a revisar los productos y nunca oprime el botón de configuración por ejemplo, se habrá cargado todo el componente de configuraciones en vano y gastara memoria y rendimiento.
+Podemos notar que este enfoque funciona y tenemos de forma controlada la creación de sus componentes, sin embargo como todos los componentes gráficos se van a cargar desde el constructor esto le va a restar rendimiento a la aplicación, imaginen que algún usuario ingresa solamente a revisar los productos y nunca oprime el botón de configuración por ejemplo, se habrá cargado todo el componente de configuraciones en vano y gastara memoria y rendimiento.
 
 Una mejor alternativa es la que usamos en la clase **LoginComponent** donde con un if gestionamos la ejemplificación del objeto asi: 
 
