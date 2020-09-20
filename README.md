@@ -823,7 +823,7 @@ Primero se van a crear los componentes gráficos a los cuales se quiere gestiona
 
 <div align='center'>
     <img  src='https://i.imgur.com/LP3Er7t.png'>
-    <p>Creación de componentes para gestionar enrutamiento</p>
+    <p>Creación de componentes para gestionar la navegación</p>
 </div>
 
 A continuación se realiza el proceso de creación de uno de estos componentes (**inicio**), los demás tendrán el mismo proceso salvo por un pequeño cambio en cada uno que se explicará más adelante:
@@ -914,7 +914,7 @@ this.navegacionUsuarioComponent = new NavegacionUsuarioComponent(this);
 ```
 Ya se ha creado la inyección y con esto hay comunicación bidireccional entre componentes gráficos.
 
-Ahora antes de continuar como la clase **VistaPrincipalComponent** se va a encargar del enrutamiento se crea un método llamado   **mostrarComponente** y recibirá por parámetro un String llamado **comando**:
+Antes de continuar, como la clase **VistaPrincipalComponent** se va a encargar de la navegación, se crea un método llamado   **mostrarComponente** y recibirá por parámetro un String llamado **comando**:
 ```javascript
 public void mostrarComponente(String comando){
 }
@@ -1154,7 +1154,7 @@ Ahora si se observa a las demás opciónes de navegación se puede notar nuevame
     <p>Problema en creación descontrolada de objetos de los componentes gráficos</p>
 </div>
 
-Para corregir esto, una alternativa puede ser la de **declarar** los objetos de los componentes, **ejemplificarlos** en el constructor e **incorporar** ese objeto en las opciones de enrutamiento: 
+Para corregir esto, una alternativa puede ser la de **declarar** los objetos de los componentes, **ejemplificarlos** en el constructor e **incorporar** ese objeto en las opciones de navegación: 
 
 ***Nota:** Se realizara el proceso solo con el componente gráfico **inicio** pero será igual para los demás componentes*.
 
