@@ -1,15 +1,13 @@
 package app.client.components.inicio;
 
-public class InicioComponent{
+public class InicioComponent {
+  private InicioTemplate inicioTemplate;
 
-    private InicioTemplate inicioTemplate;
+  public InicioComponent() {
+    this.inicioTemplate = new InicioTemplate(this);
+  }
 
-    public InicioComponent(){
-        this.inicioTemplate=  new InicioTemplate(this);
-    }
-
-    public InicioTemplate getInicioTemplate() {
-        return this.inicioTemplate;
-    }
-
+  public InicioTemplate getInicioTemplate() {
+    return this.inicioTemplate;
+  }
 }

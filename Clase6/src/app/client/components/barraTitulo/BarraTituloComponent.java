@@ -3,20 +3,26 @@ package app.client.components.barraTitulo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class BarraTituloComponent implements ActionListener{
+import app.client.vistaPrincipal.VistaPrincipalComponent;
 
-    private BarraTituloTemplate barraTituloTemplate;
+public class BarraTituloComponent implements ActionListener {
+  private BarraTituloTemplate barraTituloTemplate;
+  private VistaPrincipalComponent vistaPrincipalComponent;
 
-    public BarraTituloComponent(){
-        this.barraTituloTemplate=  new BarraTituloTemplate(this);
-    }
+  public BarraTituloComponent(VistaPrincipalComponent vistaPrincipalComponent) {
+    this.vistaPrincipalComponent = vistaPrincipalComponent;
+    this.barraTituloTemplate = new BarraTituloTemplate(this);
+  }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        System.exit(0);
-    }
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    if (e.getSource() == barraTituloTemplate.getBMinimizar())
+      vistaPrincipalComponent.minimizar();
+    if (e.getSource() == barraTituloTemplate.getBCerrar())
+      vistaPrincipalComponent.cerrar();
+  }
 
-    public BarraTituloTemplate getBarraTituloTemplate() {
-        return this.barraTituloTemplate;
-    }
+  public BarraTituloTemplate getBarraTituloTemplate() {
+    return this.barraTituloTemplate;
+  }
 }

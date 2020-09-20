@@ -1,15 +1,14 @@
 package app.client.components.configuraciones;
 
 public class ConfiguracionesComponent {
+  private ConfiguracionesTemplate configuracionesTemplate;
 
-    private ConfiguracionesTemplate configuracionesTemplate;
+  public ConfiguracionesComponent() {
 
-    public ConfiguracionesComponent(){
+    configuracionesTemplate = new ConfiguracionesTemplate(this);
+  }
 
-        configuracionesTemplate = new ConfiguracionesTemplate(this);
-    }
-    
-    public ConfiguracionesTemplate getConfiguracionesTemplate(){
-        return configuracionesTemplate;
-    }
+  public ConfiguracionesTemplate getConfiguracionesTemplate() {
+    return configuracionesTemplate;
+  }
 }

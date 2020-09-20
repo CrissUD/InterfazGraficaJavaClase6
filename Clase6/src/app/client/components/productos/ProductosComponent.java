@@ -1,14 +1,13 @@
 package app.client.components.productos;
 
-public class ProductosComponent{
+public class ProductosComponent {
+  private ProductosTemplate productosTemplate;
 
-    private ProductosTemplate productosTemplate;
+  public ProductosComponent() {
+    productosTemplate = new ProductosTemplate(this);
+  }
 
-    public ProductosComponent(){
-        productosTemplate = new ProductosTemplate(this);
-    }
-
-    public ProductosTemplate getProductosTemplate(){
-        return productosTemplate;
-    }
+  public ProductosTemplate getProductosTemplate() {
+    return productosTemplate;
+  }
 }
