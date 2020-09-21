@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
 
 public class RecursosService {
 
-  private Color colorAzul, colorMorado, colorGrisOscuro, colorGrisClaro;
+  private Color colorAzul, colorMorado, colorGrisOscuro;
   private Font fontTPrincipal, fontTitulo, fontSubtitulo;
   private Font fontMediana, fontLigera;
   private Cursor cMano;
@@ -38,7 +38,6 @@ public class RecursosService {
     colorAzul = new Color(60, 78, 120);
     colorMorado = new Color(151, 0, 158);
     colorGrisOscuro = new Color(80, 80, 80);
-    colorGrisClaro = new Color(249, 246, 249);
   }
 
   private void crearFuentes() {
@@ -77,8 +76,6 @@ public class RecursosService {
   public Color getColorGrisOscuro() { return colorGrisOscuro; }
   
   public Color getColorMorado(){ return colorMorado; }
-  
-  public Color getColorGrisClaro(){ return colorGrisClaro; }
 
   public Font getFontTPrincipal() { return fontTPrincipal; }
 

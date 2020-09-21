@@ -65,25 +65,6 @@ iMinimizar = new ImageIcon("Clase6/resources/images/minimizar.png");
 public ImageIcon getIMinimizar() { return iMinimizar; }
 ```
 
-Por ultimo se crea un objeto decorador tipo **Color**:
-
-**Declaración:**
-```javascript
-// Al inicio del servicio
-private Color colorGrisClaro;
-```
-
-**Ejemplificación:**
-```javascript
-// Dentro del método crearColores
-colorGrisClaro = new Color(249, 246, 249);
-```
-
-**Método get:**
-```javascript
-public Color getColorGrisClaro(){ return colorGrisClaro; }
-```
-
 ### **Recordatorio**
 
 Recordando el recorrido, el componente gráfico **login** esta listo y funcional, tiene una vista agradable para los usuarios, un código modularizado y optimizado, además realiza eventos por acción permitiendo cerrar la aplicación, mostrar la información recibida del usuario o abrir la ventana principal.
