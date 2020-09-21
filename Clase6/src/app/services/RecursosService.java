@@ -16,7 +16,8 @@ import javax.swing.ImageIcon;
 public class RecursosService {
 
   private Color colorAzul, colorMorado, colorGrisOscuro, colorGrisClaro;
-  private Font fontTPrincipal, fontTitulo, fontSubtitulo, fontMediana, fontLigera;
+  private Font fontTPrincipal, fontTitulo, fontSubtitulo;
+  private Font fontMediana, fontLigera;
   private Cursor cMano;
   private Border bInferiorAzul;
   private ImageIcon iCerrar, iMinimizar;
