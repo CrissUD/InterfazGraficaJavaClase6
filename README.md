@@ -277,7 +277,7 @@ public void crearJLabels(){
     null, null,
     fontTituloBarra,
     null,
-    sRecursos.getColorAzul(),
+    sRecursos.getColorPrincipal(),
     null,
     "c"
   );
@@ -517,14 +517,14 @@ private Border bVacio;
 public void crearJPanels(){
   this.pSuperior = sObjGraficos.construirJPanel(
     0, 0, 250, 300, 
-    sRecursos.getColorAzul(), 
+    sRecursos.getColorPrincipal(), 
     null
   );
   this.add(pSuperior);
 
   this.pInferior = sObjGraficos.construirJPanel(
     0, 300, 250, 400, 
-    sRecursos.getColorAzul(), 
+    sRecursos.getColorPrincipal(), 
     null
   );
   this.add(pInferior);
